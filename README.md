@@ -85,7 +85,7 @@ This creates `state/inventory.json` -- a cache of every model, custom node, and 
 ```
 Generate a photorealistic portrait using FLUX
 Create a new project called "Character Showcase"
-Add a character named Sage - auburn hair, green eyes, freckles
+Add a character named Spot - German Shepard, shaggy hair, dark fur
 Train a LoRA from these reference images
 Research the latest ComfyUI video models
 ```
