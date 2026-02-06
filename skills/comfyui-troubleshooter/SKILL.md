@@ -1,6 +1,8 @@
 ---
 name: comfyui-troubleshooter
 description: Diagnose ComfyUI errors, workflow failures, and quality issues. Suggests fixes based on error patterns, missing dependencies, and community-known workarounds. Use when ComfyUI workflows fail or produce unexpected results.
+user-invocable: true
+metadata: {"openclaw":{"emoji":"🔍","os":["darwin","linux","win32"]}}
 ---
 
 # ComfyUI Troubleshooter

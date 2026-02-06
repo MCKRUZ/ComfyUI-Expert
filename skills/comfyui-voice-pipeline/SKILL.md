@@ -1,6 +1,8 @@
 ---
 name: comfyui-voice-pipeline
 description: Generate character voices using TTS, voice cloning, and lip-sync tools. Supports Chatterbox, F5-TTS, TTS Audio Suite, RVC, and ElevenLabs. Use when creating speech audio for characters or syncing audio to video.
+user-invocable: true
+metadata: {"openclaw":{"emoji":"🎙️","os":["darwin","linux","win32"],"requires":{"anyBins":["curl","wget"]},"primaryEnv":"COMFYUI_URL"}}
 ---
 
 # ComfyUI Voice Pipeline

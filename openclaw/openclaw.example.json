@@ -1,0 +1,64 @@
+{
+  "skills": {
+    "entries": {
+      "comfyui-api": {
+        "enabled": true,
+        "env": {
+          "COMFYUI_URL": "http://127.0.0.1:8188"
+        }
+      },
+      "comfyui-inventory": {
+        "enabled": true,
+        "env": {
+          "COMFYUI_PATH": "C:\\ComfyUI"
+        }
+      },
+      "comfyui-workflow-builder": {
+        "enabled": true,
+        "env": {
+          "COMFYUI_URL": "http://127.0.0.1:8188",
+          "COMFYUI_PATH": "C:\\ComfyUI"
+        }
+      },
+      "comfyui-prompt-engineer": {
+        "enabled": true
+      },
+      "comfyui-video-pipeline": {
+        "enabled": true,
+        "env": {
+          "COMFYUI_URL": "http://127.0.0.1:8188"
+        }
+      },
+      "comfyui-voice-pipeline": {
+        "enabled": true,
+        "env": {
+          "COMFYUI_URL": "http://127.0.0.1:8188"
+        }
+      },
+      "comfyui-lora-training": {
+        "enabled": true,
+        "env": {
+          "COMFYUI_PATH": "C:\\ComfyUI"
+        }
+      },
+      "comfyui-research": {
+        "enabled": true
+      },
+      "comfyui-troubleshooter": {
+        "enabled": true
+      },
+      "project-manager": {
+        "enabled": true
+      },
+      "video-assembly": {
+        "enabled": true
+      },
+      "video-publisher": {
+        "enabled": true
+      }
+    },
+    "load": {
+      "extraDirs": []
+    }
+  }
+}

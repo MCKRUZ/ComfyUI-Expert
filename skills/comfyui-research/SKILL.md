@@ -1,6 +1,8 @@
 ---
 name: comfyui-research
 description: Research latest ComfyUI models, techniques, and community discoveries. Monitors YouTube channels, GitHub repos, and HuggingFace. Updates reference files with timestamped findings and flags stale information. Invoke with /research comfyui or automatically at session start for staleness checks.
+user-invocable: true
+metadata: {"openclaw":{"emoji":"🔬","os":["darwin","linux","win32"]}}
 ---
 
 # ComfyUI Research Skill

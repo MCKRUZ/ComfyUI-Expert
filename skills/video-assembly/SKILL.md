@@ -1,6 +1,8 @@
 ---
 name: video-assembly
 description: Assemble final video from generated clips, audio, and assets using FFmpeg or Remotion. Handles concatenation, audio mixing, transitions, titles, and export. Use when combining multiple production outputs into a final deliverable.
+user-invocable: true
+metadata: {"openclaw":{"emoji":"🎞️","os":["darwin","linux","win32"],"requires":{"bins":["ffmpeg"]}}}
 ---
 
 # Video Assembly

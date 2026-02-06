@@ -1,6 +1,8 @@
 ---
 name: video-publisher
 description: Publish assembled videos to YouTube and other platforms. Orchestrates existing youtube-uploader, youtube-strategy, and youtube-plan-new-video skills. Use when ready to publish or plan distribution for completed videos.
+user-invocable: true
+metadata: {"openclaw":{"emoji":"📤","os":["darwin","linux","win32"]}}
 ---
 
 # Video Publisher

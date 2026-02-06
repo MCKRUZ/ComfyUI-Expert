@@ -1,6 +1,8 @@
 ---
 name: project-manager
 description: Manage video production projects including character profiles, project manifests, workflow history, and asset tracking. Use when creating new projects, managing characters, or tracking production state.
+user-invocable: true
+metadata: {"openclaw":{"emoji":"📋","os":["darwin","linux","win32"]}}
 ---
 
 # Project Manager

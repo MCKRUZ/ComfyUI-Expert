@@ -1,6 +1,8 @@
 ---
 name: comfyui-video-pipeline
 description: Generate videos using ComfyUI with Wan 2.2, FramePack, or AnimateDiff. Handles image-to-video, text-to-video, talking heads, and motion-controlled animation. Use when creating any video content from character images or text descriptions.
+user-invocable: true
+metadata: {"openclaw":{"emoji":"🎬","os":["darwin","linux","win32"],"requires":{"anyBins":["curl","wget"]},"primaryEnv":"COMFYUI_URL"}}
 ---
 
 # ComfyUI Video Pipeline

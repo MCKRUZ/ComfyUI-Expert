@@ -1,6 +1,8 @@
 ---
 name: comfyui-inventory
 description: Discover and cache all installed ComfyUI models, custom nodes, and system capabilities. Works online (API queries) and offline (directory scanning). Use before generating workflows to verify available resources.
+user-invocable: true
+metadata: {"openclaw":{"emoji":"📦","os":["darwin","linux","win32"],"requires":{"bins":["pwsh"]},"primaryEnv":"COMFYUI_PATH"}}
 ---
 
 # ComfyUI Inventory Skill

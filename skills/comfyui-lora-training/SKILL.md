@@ -1,6 +1,8 @@
 ---
 name: comfyui-lora-training
 description: Prepare datasets and configure LoRA training for character consistency. Covers FLUX (AI-Toolkit, SimpleTuner, FluxGym) and SDXL (Kohya_ss) training with step-by-step guidance. Use when training custom character LoRAs.
+user-invocable: true
+metadata: {"openclaw":{"emoji":"🏋️","os":["darwin","linux","win32"],"requires":{"bins":["python"]},"primaryEnv":"COMFYUI_PATH"}}
 ---
 
 # ComfyUI LoRA Training

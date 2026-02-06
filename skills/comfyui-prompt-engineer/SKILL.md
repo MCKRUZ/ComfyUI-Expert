@@ -1,6 +1,8 @@
 ---
 name: comfyui-prompt-engineer
 description: Craft model-specific prompts optimized for the target checkpoint and identity method. Handles FLUX, SDXL, SD1.5, and Wan video models with proper syntax, quality tags, and negative prompts. Use when generating or refining prompts for ComfyUI workflows.
+user-invocable: true
+metadata: {"openclaw":{"emoji":"✍️","os":["darwin","linux","win32"]}}
 ---
 
 # ComfyUI Prompt Engineer

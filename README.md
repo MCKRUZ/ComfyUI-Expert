@@ -305,6 +305,13 @@ ComfyUI-Expert/
 |-- agent/
 |   +-- AGENT.md                 Extended orchestration spec
 |
+|-- openclaw/                    OpenClaw compatibility layer
+|   |-- AGENTS.md                Orchestration rules (CLAUDE.md equivalent)
+|   |-- SOUL.md                  Agent persona
+|   |-- TOOLS.md                 Available tools & API reference
+|   |-- setup.ps1                Install skills into OpenClaw workspace
+|   +-- openclaw.example.json    Config template
+|
 +-- docs/
     |-- architecture.md          System design decisions
     +-- getting-started.md       Quick start guide
@@ -395,6 +402,83 @@ Update the PowerShell script paths in `.claude/settings.local.json` to use `pwsh
 | ComfyUI won't connect | Run `pwsh -File scripts/connect-comfyui.ps1` |
 | Staleness hook not firing | Check `.claude/settings.local.json` is valid JSON |
 | Skills leaking to other sessions | They shouldn't -- skills are local files, not globally installed |
+
+## OpenClaw Compatibility
+
+VideoAgent skills also work with [OpenClaw](https://github.com/openclaw/openclaw). Both platforms follow the [AgentSkills specification](https://agentskills.io), so the skill files are cross-compatible. The `openclaw/` directory contains everything needed.
+
+### How it maps
+
+| Claude Code | OpenClaw Equivalent | Notes |
+|-------------|--------------------|----|
+| `CLAUDE.md` (orchestrator) | `AGENTS.md` + `SOUL.md` + `TOOLS.md` | Split across three workspace files |
+| `video-agent.bat` (launcher) | OpenClaw daemon | OpenClaw runs as a persistent service |
+| `.claude/settings.local.json` (hooks) | `openclaw.json` (config) | Different config format |
+| Auto-loads from project root | Skills in `~/.openclaw/workspace/skills/` | Must be installed to workspace |
+| `{skill}/SKILL.md` frontmatter | Same + `metadata.openclaw` block | Already added to all 12 skills |
+
+### Setup
+
+```powershell
+# 1. Run the setup script (copies skills + workspace files into OpenClaw)
+pwsh -File openclaw/setup.ps1
+
+# Or use symlinks to keep them in sync with the repo
+pwsh -File openclaw/setup.ps1 -Symlink
+
+# Or specify a custom OpenClaw workspace path
+pwsh -File openclaw/setup.ps1 -OpenClawDir "~/.openclaw/workspace"
+```
+
+```powershell
+# 2. Add skill config to your ~/.openclaw/openclaw.json
+# See openclaw/openclaw.example.json for the full template -- at minimum:
+```
+
+```json
+{
+  "skills": {
+    "entries": {
+      "comfyui-api": {
+        "enabled": true,
+        "env": { "COMFYUI_URL": "http://127.0.0.1:8188" }
+      },
+      "comfyui-inventory": {
+        "enabled": true,
+        "env": { "COMFYUI_PATH": "C:\\ComfyUI" }
+      }
+    }
+  }
+}
+```
+
+```powershell
+# 3. Restart OpenClaw to pick up the new skills
+```
+
+### What the setup script does
+
+1. Copies (or symlinks) all 12 skill folders into `~/.openclaw/workspace/skills/`
+2. Copies `AGENTS.md`, `SOUL.md`, `TOOLS.md` into the workspace root
+3. Copies `foundation/` and `references/` alongside skills for reference access
+
+### What's different in OpenClaw
+
+- **Skill routing**: Claude Code uses a routing table in `CLAUDE.md`. OpenClaw uses keyword matching on the `description` field in each skill's frontmatter -- the descriptions are already written to support this.
+- **Requirements gating**: OpenClaw validates `metadata.openclaw.requires` at load time (checks that binaries/env vars exist). Skills that fail requirements are excluded from the session.
+- **No session hook**: The staleness-check hook is Claude Code specific. In OpenClaw, ask the agent to check for stale research manually, or set up a cron job.
+- **File references**: OpenClaw skills can use `{baseDir}` to reference files relative to the skill folder. The current skills use relative paths that work in both environments.
+
+### Files
+
+```
+openclaw/
+|-- AGENTS.md                Orchestration rules (CLAUDE.md equivalent)
+|-- SOUL.md                  Agent persona
+|-- TOOLS.md                 Available tools and API reference
+|-- setup.ps1                Installation script
++-- openclaw.example.json    Config template for ~/.openclaw/openclaw.json
+```
 
 ## License
 

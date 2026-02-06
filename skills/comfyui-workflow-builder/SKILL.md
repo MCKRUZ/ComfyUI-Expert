@@ -1,6 +1,8 @@
 ---
 name: comfyui-workflow-builder
 description: Generate ComfyUI workflow JSON from natural language descriptions. Validates against installed models/nodes before output. Use when building custom ComfyUI workflows from scratch or modifying existing ones.
+user-invocable: true
+metadata: {"openclaw":{"emoji":"🔧","os":["darwin","linux","win32"],"requires":{"anyBins":["curl","wget"]},"primaryEnv":"COMFYUI_URL"}}
 ---
 
 # ComfyUI Workflow Builder
