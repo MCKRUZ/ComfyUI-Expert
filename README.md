@@ -6,7 +6,7 @@ A session-scoped AI orchestrator for [Claude Code](https://docs.anthropic.com/en
 
 Producing AI-generated video with ComfyUI involves juggling dozens of models, custom nodes, prompt styles, and hardware constraints. VideoAgent wraps all of that domain knowledge into a structured skill system that Claude reads on demand, so you can say things like:
 
-- _"Generate a photorealistic portrait of Sage using InstantID"_
+- _"Generate a photorealistic portrait of a dog using InstantID"_
 - _"Make a talking head video where she says 'Welcome to my channel'"_
 - _"Train a LoRA from these 20 reference images"_
 - _"Check for new ComfyUI video models released this month"_
