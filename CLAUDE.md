@@ -45,7 +45,7 @@ When the user makes a request, route to the right skill file:
 
 Before generating ANY workflow:
 1. Read `state/inventory.json` (if it exists)
-2. If it doesn't exist or is stale, tell the user to run: `pwsh -File scripts/scan-inventory.ps1 -ComfyUIPath "D:\ComfyUI"` (or query the API via `skills/comfyui-api/SKILL.md`)
+2. If it doesn't exist or is stale, tell the user to run: `pwsh -File scripts/scan-inventory.ps1 -ComfyUIPath "C:\ComfyUI"` (or query the API via `skills/comfyui-api/SKILL.md`)
 3. Validate every model and node in your workflow exists in inventory
 4. If something is missing, say what to download and where to put it
 

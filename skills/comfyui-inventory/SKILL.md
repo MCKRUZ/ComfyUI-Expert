@@ -48,7 +48,7 @@ curl http://127.0.0.1:8188/models/diffusion_models
 
 When ComfyUI isn't running, scan the filesystem directly.
 
-**Requires**: ComfyUI installation path (e.g., `D:\ComfyUI`)
+**Requires**: ComfyUI installation path (e.g., `C:\ComfyUI`)
 
 **Scan directories:**
 ```

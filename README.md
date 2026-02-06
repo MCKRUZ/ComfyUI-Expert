@@ -60,7 +60,7 @@ With options:
 
 ```cmd
 video-agent.bat --project "my-video"          # Set active project
-video-agent.bat --comfyui "http://192.168.1.50:8188"  # Remote ComfyUI
+video-agent.bat --comfyui "http://<remote-ip>:8188"  # Remote ComfyUI
 video-agent.bat --resume                       # Resume last session
 ```
 
@@ -69,13 +69,13 @@ video-agent.bat --resume                       # Resume last session
 First time (or after installing new models/nodes), tell the agent:
 
 ```
-Scan my ComfyUI installation at D:\ComfyUI
+Scan my ComfyUI installation at C:\ComfyUI
 ```
 
 Or run the script directly:
 
 ```powershell
-pwsh -File scripts/scan-inventory.ps1 -ComfyUIPath "D:\ComfyUI"
+pwsh -File scripts/scan-inventory.ps1 -ComfyUIPath "C:\ComfyUI"
 ```
 
 This creates `state/inventory.json` -- a cache of every model, custom node, and VRAM detail. The agent validates every workflow against this inventory before execution.
@@ -352,7 +352,7 @@ Configured in `.claude/settings.local.json` (project-local, doesn't affect other
 
 | Script | Purpose | Usage |
 |--------|---------|-------|
-| `scan-inventory.ps1` | Scan ComfyUI models & nodes offline | `pwsh -File scripts/scan-inventory.ps1 -ComfyUIPath "D:\ComfyUI"` |
+| `scan-inventory.ps1` | Scan ComfyUI models & nodes offline | `pwsh -File scripts/scan-inventory.ps1 -ComfyUIPath "C:\ComfyUI"` |
 | `connect-comfyui.ps1` | Test ComfyUI connection & show diagnostics | `pwsh -File scripts/connect-comfyui.ps1` |
 | `staleness-check.ps1` | Check research freshness (session hook) | Runs automatically at session start |
 | `deploy.ps1` | Sync references to global `comfyui-character-gen` skill | `pwsh -File scripts/deploy.ps1` |
@@ -368,7 +368,7 @@ Edit `foundation/hardware-profile.md` with your GPU specs. The agent reads this 
 Pass it at launch:
 
 ```cmd
-video-agent.bat --comfyui "http://192.168.1.50:8188"
+video-agent.bat --comfyui "http://<remote-ip>:8188"
 ```
 
 Or edit the default in `video-agent.bat` (line 18).

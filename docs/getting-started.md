@@ -32,7 +32,7 @@ video-agent.bat
 With options:
 ```cmd
 video-agent.bat --project "my-video"
-video-agent.bat --comfyui "http://192.168.1.50:8188"
+video-agent.bat --comfyui "http://<remote-ip>:8188"
 video-agent.bat --resume
 ```
 
@@ -41,12 +41,12 @@ video-agent.bat --resume
 First time only (or after installing new models):
 
 ```
-Scan my ComfyUI installation at D:\ComfyUI
+Scan my ComfyUI installation at C:\ComfyUI
 ```
 
 Or manually:
 ```powershell
-pwsh -File scripts/scan-inventory.ps1 -ComfyUIPath "D:\ComfyUI"
+pwsh -File scripts/scan-inventory.ps1 -ComfyUIPath "C:\ComfyUI"
 ```
 
 ### 3. Start Creating

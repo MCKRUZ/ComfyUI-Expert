@@ -1,7 +1,7 @@
 # ComfyUI Inventory Scanner (Offline Mode)
 # Scans ComfyUI directory structure and generates state/inventory.json
 #
-# Usage: pwsh -File scripts/scan-inventory.ps1 -ComfyUIPath "D:\ComfyUI"
+# Usage: pwsh -File scripts/scan-inventory.ps1 -ComfyUIPath "C:\ComfyUI"
 
 param(
     [Parameter(Mandatory = $true)]

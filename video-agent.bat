@@ -12,7 +12,9 @@ REM ============================================================
 
 setlocal enabledelayedexpansion
 
-set "REPO_DIR=C:\Users\kruz7\OneDrive\Documents\Code Repos\MCKRUZ\VideoAgent"
+REM Resolve to the directory where this bat file lives (strips trailing backslash)
+set "REPO_DIR=%~dp0"
+if "%REPO_DIR:~-1%"=="\" set "REPO_DIR=%REPO_DIR:~0,-1%"
 set "CLAUDE_ARGS="
 set "ACTIVE_PROJECT="
 set "COMFYUI_URL=http://127.0.0.1:8188"

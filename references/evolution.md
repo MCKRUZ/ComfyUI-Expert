@@ -108,15 +108,15 @@ This skill is designed to evolve continuously. Monitor these sources and update 
 Track what works best for this user's specific setup and preferences.
 
 ### Hardware Profile
-- GPU: RTX 5090 (32GB VRAM)
-- Can run: All models natively, including Wan 14B, FLUX FP16
-- Optimization: Use --highvram, batch processing enabled
+- GPU: [Your GPU] ([VRAM]GB VRAM)
+- Can run: [Fill in after inventory scan]
+- Optimization: [Fill in based on hardware-profile.md]
 
-### Project: Sage Character
-- Source: 3D renders (visual novel style)
-- Target: Photorealistic output
-- Key features: Auburn hair, green eyes, freckles, fair skin
-- Recommended approach: InstantID + IP-Adapter → test → train LoRA if needed
+### Project: [Your Character Name]
+- Source: [e.g., photos, 3D renders, illustrations]
+- Target: [e.g., photorealistic, stylized]
+- Key features: [appearance details]
+- Recommended approach: [fill in after testing]
 
 ### Workflow Preferences
 (To be filled as user works with skill)

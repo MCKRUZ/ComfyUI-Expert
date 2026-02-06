@@ -77,7 +77,7 @@ try {
     Write-Host "  3. Firewall is blocking the connection"
     Write-Host ""
     Write-Host "To start ComfyUI:" -ForegroundColor Yellow
-    Write-Host '  cd D:\ComfyUI && python main.py --listen --highvram'
+    Write-Host '  cd C:\ComfyUI && python main.py --listen --highvram'
     Write-Host ""
     Write-Host "Error details: $($_.Exception.Message)" -ForegroundColor Red
     exit 1
