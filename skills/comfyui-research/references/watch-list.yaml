@@ -1,0 +1,155 @@
+# ComfyUI Research Watch List
+# Sources monitored by the comfyui-research skill
+# Last reviewed: 2026-02-06
+
+youtube_channels:
+  - name: Pixaroma
+    url: "https://www.youtube.com/@pixaroma"
+    focus: ComfyUI tutorials, GGUF models, beginner workflows
+    check_frequency: weekly
+    priority: high
+
+  - name: Kijai
+    url: "https://www.youtube.com/@Kijai"
+    focus: Advanced node development, model implementations
+    check_frequency: weekly
+    priority: high
+
+  - name: Sebastian Kamph
+    url: "https://www.youtube.com/@sebastiankamph"
+    focus: ComfyUI automation, advanced workflows
+    check_frequency: weekly
+    priority: high
+
+  - name: Olivio Sarikas
+    url: "https://www.youtube.com/@OlivioSarikas"
+    focus: AI art techniques, character consistency
+    check_frequency: biweekly
+    priority: medium
+
+  - name: Matt Wolfe
+    url: "https://www.youtube.com/@maboroshi"
+    focus: AI tool roundups, industry trends
+    check_frequency: biweekly
+    priority: medium
+
+  - name: Nerdy Rodent
+    url: "https://www.youtube.com/@NerdyRodent"
+    focus: Stable Diffusion deep dives, technical analysis
+    check_frequency: biweekly
+    priority: medium
+
+  - name: Banodoco
+    url: "https://www.youtube.com/@banodoco"
+    focus: Steerable Motion, AI video techniques
+    check_frequency: monthly
+    priority: low
+
+github_repos:
+  - name: ComfyUI
+    repo: comfyanonymous/ComfyUI
+    watch: releases
+    check_frequency: weekly
+    priority: critical
+    notes: Breaking changes affect all workflows
+
+  - name: AnimateDiff-Evolved
+    repo: Kosinkadink/ComfyUI-AnimateDiff-Evolved
+    watch: releases
+    check_frequency: biweekly
+    priority: high
+
+  - name: IPAdapter_plus
+    repo: cubiq/ComfyUI_IPAdapter_plus
+    watch: releases
+    check_frequency: monthly
+    priority: medium
+    notes: Maintenance mode since April 2025, watch for forks
+
+  - name: InstantID
+    repo: cubiq/ComfyUI_InstantID
+    watch: releases
+    check_frequency: monthly
+    priority: medium
+    notes: Maintenance mode since April 2025
+
+  - name: Impact-Pack
+    repo: ltdrdata/ComfyUI-Impact-Pack
+    watch: releases
+    check_frequency: biweekly
+    priority: high
+    notes: FaceDetailer is critical for character workflows
+
+  - name: Wan-AI
+    repo: Wan-AI/Wan2.1-Preview
+    watch: releases
+    check_frequency: weekly
+    priority: high
+    notes: Watch for 2.2 MoE updates and new model sizes
+
+  - name: FramePack
+    repo: lllyasviel/FramePack
+    watch: releases
+    check_frequency: biweekly
+    priority: high
+
+  - name: Chatterbox
+    repo: resemble-ai/chatterbox
+    watch: releases
+    check_frequency: monthly
+    priority: medium
+
+  - name: F5-TTS
+    repo: SWivid/F5-TTS
+    watch: releases
+    check_frequency: monthly
+    priority: medium
+
+  - name: RIFE
+    repo: hzwer/Practical-RIFE
+    watch: releases
+    check_frequency: monthly
+    priority: low
+
+  - name: ComfyUI-Manager
+    repo: ltdrdata/ComfyUI-Manager
+    watch: releases
+    check_frequency: biweekly
+    priority: high
+
+huggingface:
+  trending_filters:
+    - tag: diffusers
+      check_frequency: weekly
+
+    - tag: text-to-image
+      check_frequency: weekly
+
+    - tag: text-to-video
+      check_frequency: weekly
+
+    - tag: text-to-speech
+      check_frequency: biweekly
+
+  watched_orgs:
+    - black-forest-labs    # FLUX models
+    - Wan-AI               # Wan video models
+    - ByteDance            # InfiniteYou, LatentSync
+    - InstantX             # ControlNet, identity models
+    - h94                  # IP-Adapter
+    - guozinan             # PuLID
+
+subreddits:
+  - name: r/StableDiffusion
+    check_frequency: weekly
+    priority: medium
+
+  - name: r/comfyui
+    check_frequency: weekly
+    priority: high
+
+staleness_thresholds:
+  models: 90          # days
+  nodes: 60           # days
+  techniques: 180     # days
+  voice_tools: 90     # days

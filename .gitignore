@@ -1,0 +1,21 @@
+# Runtime state (machine-specific)
+state/session.json
+state/inventory.json
+
+# Project outputs (large/personal)
+projects/*/outputs/
+projects/*/assets/
+
+# Claude Code internals
+.claude/settings.local.json
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Editor
+.vscode/
+*.swp
+*.swo
+*~

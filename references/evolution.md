@@ -1,0 +1,152 @@
+# Skill Evolution & Update Protocol
+
+This skill is designed to evolve continuously. Monitor these sources and update accordingly.
+
+---
+
+## Sources to Monitor
+
+### Model Releases (Check Weekly)
+
+**HuggingFace Trending**
+- https://huggingface.co/models?sort=trending
+- Filter: diffusers, video, audio
+- Watch for: New FLUX variants, Wan updates, voice models
+
+**Civitai New Models**
+- https://civitai.com/models?sort=Newest
+- Filter: Checkpoint, LoRA, ControlNet
+- Watch for: New photorealistic checkpoints, face LoRAs
+
+**GitHub Releases**
+- https://github.com/comfyanonymous/ComfyUI/releases
+- https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved/releases
+- https://github.com/cubiq/ComfyUI_IPAdapter_plus/releases
+- https://github.com/cubiq/ComfyUI_InstantID/releases
+- https://github.com/ltdrdata/ComfyUI-Impact-Pack/releases
+
+### Research & Techniques (Check Monthly)
+
+**Papers**
+- https://huggingface.co/papers (daily ML papers)
+- https://arxiv.org/list/cs.CV/recent (computer vision)
+- Search terms: "identity preservation", "video generation", "voice cloning", "diffusion"
+
+**Community Knowledge**
+- r/StableDiffusion
+- r/comfyui
+- ComfyUI Discord
+- Civitai articles/guides
+
+### Video Model Landscape (Check Bi-Weekly)
+
+**Open Source**
+- Wan series (Alibaba) - watch for 2.3+
+- HunyuanVideo (Tencent)
+- CogVideoX (Zhipu)
+- LTX Video (Lightricks)
+- Mochi (Genmo)
+
+**Commercial (for benchmarking)**
+- Kling (Kuaishou)
+- Runway Gen-3
+- Pika
+- Sora (OpenAI)
+
+### Voice/Audio (Check Monthly)
+
+- https://github.com/SWivid/F5-TTS/releases
+- https://github.com/resemble-ai/chatterbox/releases
+- ElevenLabs blog for new features
+- Fish Audio, Cartesia for emerging options
+
+---
+
+## Update Protocol
+
+### When New Model Drops
+
+1. **Evaluate relevance**: Does it improve on current recommendations?
+2. **Test compatibility**: Works with ComfyUI? Required nodes available?
+3. **Benchmark**: Compare quality/speed vs current options
+4. **Update files**:
+   - `models.md`: Add download links, paths, requirements
+   - `workflows.md`: Add/modify workflow if needed
+   - `SKILL.md`: Update recommendation tables if it becomes new default
+5. **Log change**: Add to changelog below
+
+### When User Reports Issue
+
+1. **Document the issue**: What workflow, what settings, what result
+2. **Research solutions**: Community fixes, parameter adjustments
+3. **Test fix**: Verify solution works
+4. **Update relevant file**: Add troubleshooting entry or modify settings
+5. **Log change**: Add to changelog
+
+### When User Discovers Better Approach
+
+1. **Document the discovery**: What worked better and why
+2. **Validate**: Test in multiple scenarios
+3. **Integrate**: Update workflows.md with new approach
+4. **Promote if significant**: Update SKILL.md recommendations
+
+---
+
+## Changelog
+
+### v1.0.0 (Initial Release)
+- Core workflows: InstantID, IP-Adapter, PuLID, AnimateDiff, Wan 2.1
+- Model reference with 2024-2025 state of the art
+- LoRA training guide for SDXL and FLUX
+- Voice synthesis covering Chatterbox, F5-TTS, RVC, ElevenLabs
+- Lip-sync pipelines: Wav2Lip, SadTalker, LivePortrait
+
+---
+
+## User-Specific Learnings
+
+Track what works best for this user's specific setup and preferences.
+
+### Hardware Profile
+- GPU: RTX 5090 (32GB VRAM)
+- Can run: All models natively, including Wan 14B, FLUX FP16
+- Optimization: Use --highvram, batch processing enabled
+
+### Project: Sage Character
+- Source: 3D renders (visual novel style)
+- Target: Photorealistic output
+- Key features: Auburn hair, green eyes, freckles, fair skin
+- Recommended approach: InstantID + IP-Adapter → test → train LoRA if needed
+
+### Workflow Preferences
+(To be filled as user works with skill)
+- Preferred checkpoint: [TBD]
+- Preferred upscaler: [TBD]
+- CFG sweet spot: [TBD]
+- Face detailer settings: [TBD]
+
+### What Worked Well
+(Document successful approaches)
+
+### What Didn't Work
+(Document failed approaches to avoid repeating)
+
+---
+
+## Scheduled Research Tasks
+
+**Weekly**
+- [ ] Check HuggingFace trending for new models
+- [ ] Check ComfyUI releases for breaking changes
+- [ ] Review any user feedback from recent sessions
+
+**Monthly**
+- [ ] Deep dive on any major new releases
+- [ ] Review video model landscape
+- [ ] Check voice synthesis developments
+- [ ] Update changelog if needed
+
+**Quarterly**
+- [ ] Full skill audit - are recommendations still current?
+- [ ] Remove deprecated models/methods
+- [ ] Add any new paradigm shifts
