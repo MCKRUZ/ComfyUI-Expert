@@ -72,11 +72,17 @@ Generate/Load Hero Image → Wan 2.1 I2V OR AnimateDiff → FaceDetailer per fra
 
 Best for: Character dialogue, presentations, social content
 
+**Two approaches available:**
+
 ```
-Generate Audio (TTS) → Generate/Load Character Image → Wav2Lip/SadTalker → CodeFormer Enhancement → Final Video
+Approach 1 (Image → Talking Head):
+Character Portrait → Generate Audio → SadTalker/LivePortrait → CodeFormer Enhancement → Final Video
+
+Approach 2 (Video → Add Voice):
+Existing Video → Generate Audio → Wav2Lip Lip-Sync → CodeFormer Enhancement → Final Video
 ```
 
-See `references/voice-synthesis.md` for voice creation options.
+See `references/talking-head-workflows.md` for complete workflows and `references/voice-synthesis.md` for voice creation options.
 
 ## Model Recommendations (2026 Updated)
 
@@ -172,6 +178,7 @@ When building a workflow for a user:
 - `references/workflows.md` - Detailed node-by-node workflow templates for each pattern
 - `references/lora-training.md` - LoRA training guide with Kohya/AI-Toolkit parameters
 - `references/voice-synthesis.md` - Voice cloning, TTS, and lip-sync pipeline details
+- `references/talking-head-workflows.md` - **Complete talking head workflows**: Image→Talking Head (SadTalker, LivePortrait) and Video→Add Voice (Wav2Lip) with production scripts
 - `references/evolution.md` - Update sources, changelog, and user-specific learnings
 
 ## Skill Evolution
