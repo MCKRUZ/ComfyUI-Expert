@@ -94,6 +94,34 @@ This skill is designed to evolve continuously. Monitor these sources and update 
 
 ## Changelog
 
+### v1.2.0 (2026-02-18 Research Run)
+**NEW MODELS:**
+- **Z-Image**: Day-0 ComfyUI support (Feb 2, 2026) — non-distilled, flexible quality, NVFP4/NVFP8
+- **Hunyuan 3D 3.0**: Text/image/sketch → 3D assets via Partner Nodes (Feb 16, 2026)
+- **Kling 3.0**: Commercial-quality video via Partner Nodes (Feb 16, 2026)
+- **Stable Video Infinity 2.0 Pro**: Infinite-length video with Wan 2.2 I2V A14B
+
+**IDENTITY & CHARACTER:**
+- **PuLID Flux Chroma**: New fork extending PuLID to FLUX + Chroma models
+- **USO (ByteDance)**: FLUX.1-dev based unified style+subject generation — no more fighting the model for style fidelity
+- **FLUX Kontext**: Confirmed community gold standard for single-reference consistent character editing
+
+**PERFORMANCE (CRITICAL):**
+- NVFP4 requires PyTorch cu130 — without it, NVFP4 is up to 2x SLOWER than FP8
+- ComfyUI +40% on all NVIDIA GPUs (async offload + pinned memory now default)
+- NVFP4 = 3x faster / 60% VRAM reduction on RTX 50 Series
+- NVFP8 = 2x faster / 40% VRAM reduction (any NVIDIA GPU)
+- AMD ROCm native integration: 5.4x faster for AMD GPUs
+
+**NEW FEATURE:**
+- Added `comfyui-prompt-interview` skill — conversational guided interview that synthesizes a perfect model-appropriate prompt from user answers
+
+**FILES UPDATED:**
+- `references/staleness-report.md` — first full research run logged
+- `foundation/model-landscape.md` — Z-Image, SVI 2.0 Pro, Kling 3.0, Hunyuan 3D 3.0 added
+- `references/research-2025.md` — 2026 section appended
+- `foundation/skill-registry.md` — new prompt-interview skill registered
+
 ### v1.1.0 (February 2026 Update)
 **NEW MODELS & FEATURES:**
 - **FLUX.2**: Up to 10 reference images for maximum identity consistency

@@ -27,6 +27,8 @@ When the user makes a request, route to the right skill file:
 
 | User Wants | Read This Skill | Also Check |
 |------------|----------------|------------|
+| Help thinking through / describing what they want to create | `skills/comfyui-prompt-interview/SKILL.md` | Nothing — lead with conversation first |
+| "I have an idea for..." / vague concept | `skills/comfyui-prompt-interview/SKILL.md` | Offer to build workflow after |
 | Generate/create character image | `skills/comfyui-workflow-builder/SKILL.md` | Inventory first, then `comfyui-character-gen` for identity methods |
 | Craft prompts for generation | `skills/comfyui-prompt-engineer/SKILL.md` | Character profile if exists |
 | Create video / animate | `skills/comfyui-video-pipeline/SKILL.md` | Inventory for available video models |

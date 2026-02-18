@@ -126,3 +126,62 @@ The 2024-2025 ComfyUI ecosystem enables truly professional character generation 
 The optimal multi-modal pipeline follows this sequence: generate consistent characters with LoRA-enhanced FLUX/SDXL models → clone voices with F5-TTS or Chatterbox using 10-30 second references → create video with Wan 2.2 or FramePack → apply lip-sync with LatentSync 1.6 or InfiniteTalk → post-process with RIFE interpolation and SUPIR upscaling.
 
 Key architectural insights: FramePack's VRAM-invariant approach enables 60-second videos on consumer GPUs; TTS Audio Suite's unified platform eliminates fragmented voice cloning setups; PuLID Flux II's contrastive alignment solves model pollution for dual-character generation. The field continues rapid evolution—monitor the community forks emerging from maintenance-mode repositories and emerging models like CharaConsist's point-tracking attention for next-generation consistency.
+
+---
+
+## 2026 Updates — February Research Run
+
+<!-- Updated: 2026-02-18 | Source: NVIDIA Blog (CES 2026), ComfyUI Changelog, ComfyUI Wiki News, HuggingFace, GitHub -->
+
+### NVFP4 Performance — Critical Configuration Requirement
+
+ComfyUI officially supports NVFP4 quantized models for RTX 50 Series (Blackwell) acceleration. **Critical**: NVFP4 only provides speedup if you run PyTorch built with CUDA 13.0 (`cu130`). Without it, NVFP4 sampling is up to **2x slower** than FP8.
+
+- NVFP4: 3x faster performance, 60% VRAM reduction vs BF16 on RTX 50 Series
+- NVFP8: 2x faster, 40% VRAM reduction (works on any NVIDIA GPU)
+- **Overall ComfyUI speedup**: +40% on all NVIDIA GPUs via async offloading + pinned memory (enabled by default as of v0.8.1+)
+- NVFP4/NVFP8 checkpoints now available for: LTX-2, FLUX.1, FLUX.2, Z-Image, Qwen-Image (Alibaba)
+
+**Verify CUDA version**: `python -c "import torch; print(torch.version.cuda)"`
+Must show `13.0` for NVFP4 acceleration. If not, use NVFP8 or FP8 instead.
+
+### New Image Models (Feb 2026)
+
+**Z-Image** received Day-0 ComfyUI support (Feb 2, 2026). Non-distilled, flexible, high-quality image generation from Alibaba. NVFP4/NVFP8 checkpoints available directly in ComfyUI.
+
+**USO (Unified Style and Object)** from ByteDance's USO Team — built on FLUX.1-dev architecture. Addresses the fundamental tension between style-driven and subject-driven generation by treating them as a unified task. Key innovation: decoupling and recombining content and style so a single generation can preserve a subject's identity AND apply a specific style simultaneously.
+
+### Video — Stable Video Infinity 2.0 Pro + Wan 2.2
+
+**Stable Video Infinity (SVI) 2.0 Pro** paired with Wan 2.2 I2V A14B is the current gold standard for infinite-length video generation. Improvements over v1:
+- Fixes video glitches, weird artifacts, and color degradation from v1
+- HIGH and LOW LoRA variants (HIGH = better quality, LOW = faster/less VRAM)
+- Works with Wan 2.2 I2V base; temporal continuity far beyond single clips
+- Community workflows available on Civitai (1080p 60FPS) and via kijai/ComfyUI-WanVideoWrapper
+
+**LTX-2** production status confirmed: generates up to 20 seconds of 4K video with built-in audio, multi-keyframe support, and NVFP8 optimization. First open-source model matching commercial cloud video generation quality.
+
+### New 3D and Video Partner Nodes (Feb 16, 2026)
+
+**Hunyuan 3D 3.0** now available via ComfyUI Partner Nodes. Tencent's state-of-the-art 3D model generates production-ready 3D assets from text, images, or sketches in minutes. Supports PBR material generation.
+
+**Kling 3.0** now available via ComfyUI Partner Nodes. Commercial-quality video generation direct from ComfyUI interface. Significant upgrade from earlier Kling versions.
+
+### Identity Preservation — New Methods
+
+**PuLID Flux Chroma** (fork: `PaoloC68/ComfyUI-PuLID-Flux-Chroma`): Extends PuLID face identity preservation to FLUX and the newer **Chroma** model family. Relevant if Chroma adoption increases.
+
+**USO** (see above) provides a clean path for character + style consistency without fighting the model's aesthetics — potentially complementary to InfiniteYou for stylized outputs.
+
+**FLUX Kontext** continues to be the community gold standard for consistent character editing from a single reference image. Community workflows at runcomfy.com and mimicpc.com demonstrate "consistent characters" pipelines using Kontext.
+
+### AMD ROCm Support
+
+ComfyUI now has **native AMD ROCm integration** with reported 5.4x faster image generation for AMD GPU users. AMD RDNA 4 (RX 9070 XT) users can now run ComfyUI workflows competitively.
+
+### Community Workflow Resources (Updated)
+
+- [ComfyUI Changelog](https://docs.comfy.org/changelog) — official releases page, check for breaking changes
+- [ComfyUI Wiki News](https://comfyui-wiki.com/en/news) — aggregated news with dates
+- [RunComfy Workflows](https://www.runcomfy.com) — curated community workflows with previews
+- [NVIDIA RTX AI Blog](https://blogs.nvidia.com/blog/rtx-ai-garage-ces-2026-open-models-video-generation/) — hardware optimization announcements

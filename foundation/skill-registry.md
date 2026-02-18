@@ -18,6 +18,7 @@
 
 | Skill | Path | Depends On |
 |-------|------|------------|
+| `comfyui-prompt-interview` | `skills/comfyui-prompt-interview/` | prompt-engineer |
 | `comfyui-prompt-engineer` | `skills/comfyui-prompt-engineer/` | inventory |
 | `comfyui-workflow-builder` | `skills/comfyui-workflow-builder/` | inventory |
 | `comfyui-character-gen` | Existing `~/.claude/skills/` | inventory (agent wraps with context) |
