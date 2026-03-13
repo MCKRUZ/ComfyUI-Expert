@@ -1,0 +1,31 @@
+should_trigger:
+  - "I need to generate a consistent character across multiple images"
+  - "How do I preserve someone's face when generating new images of them?"
+  - "Build a character generation workflow that keeps identity consistent"
+  - "I want to turn my 3D render into a photorealistic portrait keeping the same face"
+  - "Set up an identity-preserving pipeline for generating character variations"
+  - "Make a workflow for generating a person in different outfits while keeping their face"
+  - "I need to create consistent character art for my game using reference photos"
+  - "Help me use InstantID to generate portraits of my character"
+  - "I want to generate images of a specific person in different scenes"
+  - "Create a face-swapping workflow that maintains identity across poses"
+
+should_not_trigger:
+  - "Generate a landscape image with mountains"
+  - "Build a ComfyUI workflow for text-to-image"
+  - "Help me write a prompt for an anime character"
+  - "How do I train a LoRA on character images?"
+  - "Explain how IP-Adapter works technically"
+  - "Review my ComfyUI workflow for performance issues"
+  - "Generate a random character design with no reference"
+  - "Help me animate a character walking"
+  - "What's the best model for generating food photography?"
+  - "Edit the background of this image without changing the subject"
+
+optimized_description: >
+  Build identity-preserving character generation workflows and pipelines in ComfyUI.
+  Selects the optimal identity method (InfiniteYou, FLUX Kontext, PuLID, InstantID) based on
+  use case requirements. Handles face preservation, likeness transfer, cross-domain conversion
+  (3D to photo), multi-reference consistency, iterative character editing, and character
+  variation generation. Does NOT cover general image generation without identity preservation,
+  model training/LoRA fine-tuning, animation, technical explanations, or workflow debugging.

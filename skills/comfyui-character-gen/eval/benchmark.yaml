@@ -1,0 +1,29 @@
+skill_type: capability_uplift
+baseline_expected_score: "25%"
+with_skill_target_score: "80%"
+token_overhead_acceptable: "20%"
+manual_correction_reduction: "65%"
+test_case_count: 7
+happy_path_cases: 4
+failure_mode_cases: 2
+comparison_criteria:
+  - criterion: "Correct identity method selected for use case (InfiniteYou vs Kontext vs PuLID vs InstantID)"
+    weight: 0.30
+    assertion_types: [contains, regex]
+    anchor: "method name appears in output"
+  - criterion: "Method-specific parameters are correct (e.g., CFG 4-5 for InstantID)"
+    weight: 0.25
+    assertion_types: [regex, not_contains]
+    anchor: "numeric CFG value matched by regex"
+  - criterion: "Resolution matches the base model requirements"
+    weight: 0.15
+    assertion_types: [structure_check]
+    anchor: "semantic — resolution correctness depends on model context"
+  - criterion: "Pipeline ordering is correct with identity injection at proper stage"
+    weight: 0.20
+    assertion_types: [regex, structure_check]
+    anchor: "partial — edit-in-place keywords anchored, ordering is semantic"
+  - criterion: "Multi-reference handling strategy is appropriate when applicable"
+    weight: 0.10
+    assertion_types: [regex, structure_check]
+    anchor: "partial — multi-reference keywords anchored, method appropriateness is semantic"

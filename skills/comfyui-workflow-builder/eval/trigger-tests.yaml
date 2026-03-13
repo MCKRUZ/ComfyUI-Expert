@@ -1,0 +1,30 @@
+should_trigger:
+  - "Build me a ComfyUI workflow for generating anime portraits"
+  - "Create a workflow JSON that uses SDXL with ControlNet depth"
+  - "Make me an image generation pipeline in ComfyUI"
+  - "I need a txt2img workflow with two LoRAs stacked"
+  - "Generate a ComfyUI workflow for inpainting with SDXL"
+  - "Set up a workflow that goes from text prompt to final image using Juggernaut XL"
+  - "Can you make a ComfyUI pipeline for img2img with SD 1.5?"
+  - "I want to create a workflow with upscaling after generation"
+  - "Build a node graph for generating product photos with ControlNet"
+  - "Help me wire up a ComfyUI workflow for face detailing with ADetailer"
+
+should_not_trigger:
+  - "Explain how latent diffusion models work mathematically"
+  - "Review this Python script for bugs"
+  - "What's the difference between SDXL and SD 1.5 architecturally?"
+  - "Help me install ComfyUI on my server"
+  - "Write a custom ComfyUI node in Python"
+  - "Debug why my ComfyUI server won't start"
+  - "Compare Midjourney vs Stable Diffusion quality"
+  - "Help me fine-tune a LoRA model"
+  - "What GPU should I buy for AI image generation?"
+  - "Convert this Automatic1111 workflow to a Python script"
+
+optimized_description: >
+  Generate, build, create, or design ComfyUI workflow JSON from natural language descriptions.
+  Produces valid node graphs with correct class_types, connections, output indices, and
+  model-appropriate settings. Handles txt2img, img2img, inpainting, ControlNet, LoRA stacking,
+  upscaling, and face detailing pipelines. Does NOT cover ComfyUI installation, custom node
+  development, Python scripting, model training, hardware advice, or architectural explanations.

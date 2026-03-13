@@ -1,0 +1,32 @@
+should_trigger:
+  - "Help me create a prompt for an image"
+  - "I want to generate an image but I'm not sure how to describe what I want"
+  - "Write me a prompt for a fantasy scene"
+  - "I need a good prompt for SDXL"
+  - "Can you help me come up with a prompt for a portrait?"
+  - "Make me a prompt for a cyberpunk cityscape"
+  - "I want to create an image of a dragon but need help with the prompt"
+  - "Help me describe my creative vision for image generation"
+  - "I need prompts for a series of product photos"
+  - "What prompt should I use for a Studio Ghibli style landscape?"
+
+should_not_trigger:
+  - "Build me a ComfyUI workflow for txt2img"
+  - "Fix this prompt — it's giving me bad results: 'a cat sitting on a table'"
+  - "Explain how CLIP text encoding works"
+  - "What's the difference between positive and negative prompts technically?"
+  - "Help me debug why my prompt isn't producing good images"
+  - "Review this ComfyUI workflow for errors"
+  - "Generate a character with consistent identity across scenes"
+  - "How do I train a textual inversion embedding?"
+  - "Convert this Midjourney prompt to Stable Diffusion format"
+  - "Write a Python script to batch-generate prompts"
+
+optimized_description: >
+  Guided conversational interview to understand a user's creative vision before generating
+  model-appropriate image prompts. Asks clarifying questions about subject, mood, style, and
+  technical preferences (4-7 exchanges), then synthesizes positive prompt, negative prompt,
+  recommended settings table, and pipeline recommendation. Formats prompts for the target model
+  (SDXL tag-style, FLUX natural language, SD1.5 weighted tokens). Does NOT cover workflow
+  building, prompt debugging/fixing, technical explanations, model training, code generation,
+  or identity-preserving character generation.

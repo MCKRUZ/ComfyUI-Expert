@@ -1,0 +1,161 @@
+- id: TC-001
+  name: simple-likeness-portrait
+  prompt: "I have a headshot photo and I want to generate a professional LinkedIn portrait in a different outfit and background"
+  assertions:
+    - type: contains
+      target: "InstantID"
+      critical: false
+    - type: regex
+      target: "(InstantID|PuLID|InfiniteYou|IP-Adapter|Kontext)"
+      description: "Identity preservation method is recommended"
+      critical: true
+    - type: regex
+      target: "(cfg|CFG|guidance).*[0-9]"
+      description: "CFG scale recommendation is present with a numeric value"
+      critical: true
+    - type: structure_check
+      target: "Resolution matches the base model used (e.g., 1024 for SDXL, 512 for SD1.5)"
+      description: "Semantic check — resolution correctness depends on which model is selected"
+      critical: true
+  expected_behavior: "Recommends an appropriate identity preservation method for direct likeness transfer, with correct CFG and resolution settings for the chosen base model"
+  edge_case: false
+
+- id: TC-002
+  name: 3d-render-to-photorealistic
+  prompt: "I have a 3D rendered character from Blender and want to convert it to a photorealistic photo while keeping the exact same face and pose"
+  assertions:
+    - type: contains
+      target: "InfiniteYou"
+      critical: true
+    - type: not_contains
+      target: "InstantID as primary method"
+      critical: false
+    - type: contains
+      target: "cross-domain"
+      description: "Method selection rationale explains cross-domain transfer capability"
+      critical: false
+    - type: structure_check
+      target: "Method selection rationale explains why InfiniteYou handles cross-domain (3D to photo) better"
+      description: "Semantic check — requires understanding of method selection reasoning"
+      critical: true
+    - type: regex
+      target: "(denoise|strength).*(0\\.[5-7]|0\\.5|0\\.6|0\\.7)"
+      description: "Denoise strength is moderate (0.5-0.7) to preserve pose while transforming style"
+      critical: false
+  expected_behavior: "Selects InfiniteYou as the primary method because it handles cross-domain identity transfer (3D to photo) better than InstantID, which struggles with non-photographic inputs"
+  edge_case: true
+
+- id: TC-003
+  name: multi-reference-consistency
+  prompt: "I have 5 reference photos of a character from different angles. I need to generate this character in 10 different scenes maintaining consistent identity"
+  assertions:
+    - type: regex
+      target: "(multiple|multi|several).*(reference|image|photo|angle)"
+      description: "Multi-reference strategy is described (not just single image input)"
+      critical: true
+    - type: structure_check
+      target: "Recommends a method that supports multiple reference images or describes how to combine references"
+      description: "Semantic check — requires understanding of method capabilities for multi-reference"
+      critical: true
+    - type: regex
+      target: "(batch|iterati|seed|consist)"
+      description: "Batch/iteration strategy for generating 10 consistent scenes"
+      critical: false
+    - type: structure_check
+      target: "Seed management or consistency strategy mentioned"
+      description: "Semantic check — consistency approach may be described in varied ways"
+      critical: false
+  expected_behavior: "Addresses multi-reference input handling, recommends a method or strategy that leverages multiple angles for better identity preservation, and includes consistency strategy across multiple generations"
+  edge_case: false
+
+- id: TC-004
+  name: instantid-cfg-override
+  prompt: "Set up an InstantID workflow for generating character portraits with high detail and sharpness"
+  assertions:
+    - type: contains
+      target: "InstantID"
+      critical: true
+    - type: regex
+      target: "(cfg|CFG).*(4|4\\.[0-9]|5|5\\.0)"
+      description: "CFG scale is 4-5, NOT 7-8 or higher"
+      critical: true
+    - type: not_contains
+      target: "cfg: 7"
+      critical: true
+    - type: structure_check
+      target: "Explains that InstantID requires lower CFG to avoid artifacts or distortion"
+      description: "Semantic check — requires understanding of the CFG/artifact tradeoff explanation"
+      critical: false
+  expected_behavior: "Uses InstantID as requested but correctly sets CFG to 4-5 range despite the user asking for 'high detail' — higher CFG with InstantID causes artifacts, not more detail"
+  edge_case: false
+
+- id: TC-005
+  name: iterative-character-editing
+  prompt: "I generated a character portrait I like but want to change just the hairstyle while keeping everything else identical"
+  assertions:
+    - type: contains
+      target: "Kontext"
+      critical: true
+    - type: regex
+      target: "(edit|inpaint|mask|targeted|selective)"
+      description: "Recommends edit-in-place method rather than full regeneration"
+      critical: true
+    - type: structure_check
+      target: "Edit is targeted/masked rather than full image regeneration"
+      description: "Semantic check — requires understanding whether the approach is truly targeted"
+      critical: true
+    - type: not_contains
+      target: "regenerate from scratch"
+      critical: false
+  expected_behavior: "Selects FLUX Kontext for iterative editing because it supports targeted modifications while preserving the rest of the image, rather than suggesting full regeneration with identity preservation"
+  edge_case: false
+
+- id: TC-006
+  name: low-vram-constraint
+  prompt: "I only have 8GB VRAM on my GPU. What's the best way to do identity-preserving character generation?"
+  assertions:
+    - type: regex
+      target: "(8\\s*GB|VRAM|memory|GPU)"
+      critical: true
+      description: "Must acknowledge the VRAM constraint"
+    - type: regex
+      target: "(InstantID|PuLID|InfiniteYou|IP-Adapter)"
+      critical: true
+      description: "Must recommend a specific method"
+    - type: regex
+      target: "(SD1\\.5|SD 1\\.5|512|lightweight|smaller)"
+      critical: false
+      description: "Should suggest SD1.5 or lighter models for 8GB VRAM"
+    - type: not_contains
+      target: "SDXL is recommended"
+      critical: true
+      description: "Should not recommend SDXL as primary for 8GB VRAM"
+  expected_behavior: >
+    8GB VRAM is a hard constraint. SDXL-based workflows need ~10-12GB.
+    The skill should recommend SD1.5-based methods or explain SDXL
+    optimizations (--lowvram, fp16, model offloading) rather than blindly
+    suggesting SDXL workflows.
+  edge_case: true
+
+- id: TC-007
+  name: no-reference-images
+  prompt: "I want to generate a consistent character across 20 images but I don't have any reference photos to start from"
+  assertions:
+    - type: regex
+      target: "(generat|creat|first|initial).*reference"
+      critical: true
+      description: "Must address the missing reference problem"
+    - type: regex
+      target: "(txt2img|text.to.image|generate.*first|create.*base)"
+      critical: true
+      description: "Should suggest generating an initial reference"
+    - type: regex
+      target: "(seed|consist|same.*prompt|lock)"
+      critical: false
+      description: "Should mention seed/consistency strategies"
+  expected_behavior: >
+    No reference images means identity preservation methods can't be used
+    directly. The skill should suggest a workflow: generate a base character
+    via txt2img, then use that as the reference for identity-preserving
+    generation of the remaining 19 images.
+  edge_case: true

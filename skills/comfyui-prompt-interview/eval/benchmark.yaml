@@ -1,0 +1,29 @@
+skill_type: encoded_preference
+baseline_expected_score: "15%"
+with_skill_target_score: "90%"
+token_overhead_acceptable: "30%"
+manual_correction_reduction: "60%"
+test_case_count: 7
+happy_path_cases: 3
+failure_mode_cases: 2
+comparison_criteria:
+  - criterion: "Asks clarifying questions BEFORE generating any prompts (interview-first sequence)"
+    weight: 0.35
+    assertion_types: [question_before_code, regex, not_contains]
+    anchor: "question mark presence and absence of prompt output markers"
+  - criterion: "Interview length is appropriate (4-7 exchanges, not too short or too long)"
+    weight: 0.15
+    assertion_types: [structure_check]
+    anchor: "semantic — requires multi-turn eval harness"
+  - criterion: "Prompt formatting matches the target model (SDXL tags vs FLUX natural language)"
+    weight: 0.20
+    assertion_types: [not_contains, regex]
+    anchor: "anti-pattern exclusion and sentence structure regex"
+  - criterion: "Complete output package (positive prompt, negative prompt, settings table, pipeline recommendation)"
+    weight: 0.15
+    assertion_types: [regex]
+    anchor: "keyword presence for prompt sections and settings parameters"
+  - criterion: "Questions cover essential dimensions without redundancy"
+    weight: 0.15
+    assertion_types: [structure_check, regex]
+    anchor: "partial — pipeline keyword anchored, dimension coverage is semantic"

@@ -1,0 +1,161 @@
+- id: TC-001
+  name: basic-image-request-interviews-first
+  prompt: "I want to create an image of a dragon"
+  assertions:
+    - type: question_before_code
+      description: "Asks at least one clarifying question BEFORE generating any prompt text"
+      critical: true
+    - type: regex
+      target: "\\?"
+      description: "Response contains a question mark"
+      critical: true
+    - type: not_contains
+      target: "Positive prompt:"
+      critical: true
+    - type: not_contains
+      target: "Negative prompt:"
+      critical: true
+  expected_behavior: "Does NOT immediately generate a prompt. Instead asks clarifying questions about style (realistic, fantasy, anime?), mood (menacing, majestic, playful?), setting, and technical preferences before producing anything"
+  edge_case: false
+
+- id: TC-002
+  name: overly-detailed-request-still-interviews
+  prompt: "I want a photorealistic image of a woman in a red dress standing in a wheat field at golden hour, shot on a Canon 5D with 85mm lens, shallow depth of field, warm tones"
+  assertions:
+    - type: regex
+      target: "\\?.*\\?"
+      description: "Contains at least 2 questions"
+      critical: true
+    - type: structure_check
+      target: "Questions are targeted to gaps (model preference, aspect ratio, specific mood) rather than repeating what user already said"
+      description: "Semantic check — requires understanding whether questions address gaps vs repeating known info"
+      critical: true
+    - type: not_contains
+      target: "Here is your prompt"
+      critical: true
+  expected_behavior: "Even with a detailed request, asks 1-2 targeted follow-up questions about gaps (which model/pipeline, specific mood nuance, aspect ratio) rather than immediately generating. Does not re-ask things the user already specified"
+  edge_case: true
+
+- id: TC-003
+  name: full-interview-to-sdxl-prompt
+  prompt: "Help me create a prompt for a fantasy landscape"
+  assertions:
+    - type: structure_check
+      target: "Interview happens first with 4-7 exchanges before prompt generation"
+      description: "MANUAL: requires multi-turn eval harness to verify exchange count"
+      critical: true
+    - type: regex
+      target: "(positive|negative).*(prompt|Prompt)"
+      description: "Final output includes positive and negative prompt sections"
+      critical: true
+    - type: regex
+      target: "(sampler|steps|CFG|resolution)"
+      description: "Output includes settings table with key parameters"
+      critical: true
+    - type: structure_check
+      target: "Positive prompt uses SDXL-appropriate formatting if SDXL is selected"
+      description: "Semantic check — formatting correctness depends on model context"
+      critical: false
+  expected_behavior: "Conducts a 4-7 exchange interview covering subject details, style, mood, model preference, then synthesizes a complete output package with positive/negative prompts, settings table, and pipeline recommendation"
+  edge_case: false
+
+- id: TC-004
+  name: flux-natural-language-formatting
+  prompt: "I need a prompt for FLUX — I want a cyberpunk street scene"
+  assertions:
+    - type: question_before_code
+      description: "Interviews before generating even though model is specified"
+      critical: true
+    - type: regex
+      target: "\\?"
+      description: "Response contains a question mark indicating interview behavior"
+      critical: true
+    - type: not_contains
+      target: "masterpiece, best quality"
+      critical: true
+    - type: regex
+      target: "[A-Z][a-z]+.*\\."
+      description: "Contains full sentences (capital letter followed by words and period) — natural language, not comma-separated tags"
+      critical: false
+    - type: structure_check
+      target: "Negative prompt is minimal or absent (FLUX handles negatives differently)"
+      description: "Semantic check — requires judging whether negative prompt is appropriately minimal"
+      critical: false
+  expected_behavior: "After interviewing, generates FLUX-formatted prompts using natural language descriptions rather than tag-style formatting. Avoids SD-style quality tags like 'masterpiece, best quality' which are irrelevant for FLUX"
+  edge_case: false
+
+- id: TC-005
+  name: interview-length-not-excessive
+  prompt: "Make me a cool anime character"
+  assertions:
+    - type: structure_check
+      target: "Interview completes within 4-7 exchanges, not dragging to 10+"
+      description: "MANUAL: requires multi-turn eval harness to verify exchange count"
+      critical: true
+    - type: structure_check
+      target: "Questions cover essential dimensions: subject, style, mood, technical preferences"
+      description: "Semantic check — requires judging question coverage across creative dimensions"
+      critical: true
+    - type: structure_check
+      target: "Does not ask redundant or overly granular questions"
+      description: "Semantic check — requires judging question quality and redundancy"
+      critical: false
+    - type: regex
+      target: "(pipeline|workflow|SDXL|FLUX|SD1\\.5|Wan)"
+      description: "Pipeline recommendation included in final output"
+      critical: true
+  expected_behavior: "Keeps the interview focused at 4-7 exchanges covering the essential creative dimensions without over-questioning. Wraps up with a complete prompt package including pipeline recommendation"
+  edge_case: false
+
+- id: TC-006
+  name: skip-interview-demand
+  prompt: "Skip the interview. Just write me a FLUX prompt for a cyberpunk alley with neon signs and rain, 16:9 aspect ratio."
+  assertions:
+    - type: not_contains
+      target: "What style"
+      critical: true
+      description: "Should not ask redundant questions when user gave full details"
+    - type: regex
+      target: "(cyberpunk|neon|rain|alley)"
+      critical: true
+      description: "Must include the user's specified elements"
+    - type: regex
+      target: "(16:9|1344.*768|1216.*832|landscape)"
+      critical: false
+      description: "Should address the 16:9 aspect ratio"
+    - type: not_contains
+      target: "masterpiece, best quality"
+      critical: true
+      description: "FLUX prompts must not use SD-style quality tags"
+  expected_behavior: >
+    User explicitly says skip the interview and provides all details.
+    The skill should respect this and generate the prompt directly, not
+    insist on interviewing. May ask 1 brief clarification at most but
+    should not run a full interview sequence.
+  edge_case: true
+
+- id: TC-007
+  name: video-prompt-request
+  prompt: "I need a prompt for a Wan 2.1 video of a cat jumping onto a table in slow motion"
+  assertions:
+    - type: question_before_code
+      critical: true
+      description: "Should still ask at least one question before generating"
+    - type: regex
+      target: "(motion|movement|dynamic|action|jump)"
+      critical: true
+      description: "Must address the motion aspect for video"
+    - type: regex
+      target: "(Wan|video|I2V|img2vid|animate)"
+      critical: true
+      description: "Must acknowledge this is a video prompt"
+    - type: not_contains
+      target: "8k uhd"
+      critical: false
+      description: "Video prompts should not include still-image quality tags"
+  expected_behavior: >
+    Video prompts differ from image prompts — they need motion descriptions,
+    shorter length (20-50 words per SKILL.md), and different formatting.
+    The interview should adapt to ask video-relevant questions (duration,
+    camera movement, frame rate feel).
+  edge_case: true

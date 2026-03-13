@@ -1,0 +1,33 @@
+skill_type: capability_uplift
+baseline_expected_score: "30%"
+with_skill_target_score: "85%"
+token_overhead_acceptable: "25%"
+manual_correction_reduction: "70%"
+test_case_count: 7
+happy_path_cases: 5
+failure_mode_cases: 1
+comparison_criteria:
+  - criterion: "All class_types reference real ComfyUI nodes"
+    weight: 0.25
+    assertion_types: [contains, json_valid]
+    anchor: "node name string match and JSON validity"
+  - criterion: "Output indices are correct for each node type (e.g., CheckpointLoader [0]=MODEL, [1]=CLIP, [2]=VAE)"
+    weight: 0.25
+    assertion_types: [structure_check, not_contains]
+    anchor: "semantic — requires JSON graph analysis; anti-pattern exclusion anchored"
+  - criterion: "No dangling inputs — every required connection is wired"
+    weight: 0.20
+    assertion_types: [structure_check]
+    anchor: "semantic — requires full graph traversal"
+  - criterion: "Resolution matches the selected model's training resolution"
+    weight: 0.15
+    assertion_types: [regex, contains, not_contains]
+    anchor: "resolution numeric value and anti-pattern exclusion"
+  - criterion: "VRAM estimate is reasonable for the workflow complexity"
+    weight: 0.10
+    assertion_types: [structure_check]
+    anchor: "semantic — requires understanding workflow complexity"
+  - criterion: "Model filenames reference known/real checkpoint files"
+    weight: 0.05
+    assertion_types: [structure_check]
+    anchor: "semantic — requires knowledge of real model filenames"

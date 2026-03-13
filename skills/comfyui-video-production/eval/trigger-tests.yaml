@@ -1,0 +1,32 @@
+should_trigger:
+  - "I need to create a video from a still image"
+  - "Build a video generation pipeline with multiple shots"
+  - "Help me set up a txt2vid workflow in ComfyUI"
+  - "I want to animate my generated images into a product showcase video"
+  - "Create a video pipeline that handles errors and retries automatically"
+  - "Plan a multi-shot video production with consistent style across clips"
+  - "I need to generate a 30-second video from text descriptions"
+  - "Set up an img2vid pipeline with quality validation between steps"
+  - "Help me orchestrate a video production workflow with AnimateDiff"
+  - "I need a video pipeline that falls back to different models if generation fails"
+
+should_not_trigger:
+  - "Generate a single still image of a landscape"
+  - "Help me write a prompt for an anime character"
+  - "Build a ComfyUI workflow for text-to-image"
+  - "How do I edit videos in DaVinci Resolve?"
+  - "Explain how AnimateDiff works technically"
+  - "Help me install video generation models"
+  - "Review my ComfyUI workflow for performance"
+  - "What's the best GPU for video generation?"
+  - "Help me train a video model"
+  - "Convert this video to a different format with ffmpeg"
+
+optimized_description: >
+  Plan and orchestrate end-to-end video production pipelines in ComfyUI with validation gates
+  and error recovery. Handles img2vid, txt2vid, vid2vid, and multi-shot video production.
+  Produces pipeline plans with correct step ordering (generate → validate → animate → validate →
+  concat), model selection, retry strategies (seed randomization → parameter adjustment → model
+  fallback), and VRAM-aware resource management. Does NOT cover still image generation, prompt
+  writing, workflow building for non-video tasks, video editing in external tools, model
+  training, installation, or hardware recommendations.

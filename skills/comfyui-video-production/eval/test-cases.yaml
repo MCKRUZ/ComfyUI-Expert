@@ -1,0 +1,167 @@
+- id: TC-001
+  name: simple-img2vid-pipeline
+  prompt: "I have a still image of a landscape and want to animate it into a 4-second video with gentle camera movement"
+  assertions:
+    - type: regex
+      target: "(img2vid|image.to.video|I2V|still.to.video)"
+      description: "Pipeline is img2vid"
+      critical: true
+    - type: contains
+      target: "validation"
+      critical: true
+    - type: regex
+      target: "(validate|check|verify|gate).*output"
+      description: "Steps follow generate then validate then output pattern"
+      critical: false
+    - type: regex
+      target: "(SVD|Stable Video|AnimateDiff|Wan|CogVideo)"
+      description: "Appropriate model selected for img2vid"
+      critical: true
+  expected_behavior: "Produces an img2vid pipeline with proper step ordering, validation gates between stages, and appropriate model selection for still-to-video animation"
+  edge_case: false
+
+- id: TC-002
+  name: error-recovery-seed-to-fallback
+  prompt: "Build a video generation pipeline that can handle failures gracefully — I'm generating product showcase videos and can't afford manual intervention"
+  assertions:
+    - type: regex
+      target: "(seed|random).*((param|adjust|config)|(fallback|alternate))"
+      description: "Retry strategy follows correct order: seed randomization then parameter adjustment then model fallback"
+      critical: true
+    - type: not_contains
+      target: "retry with same parameters"
+      critical: true
+    - type: regex
+      target: "(fallback|secondary|alternate|backup).*(model|checkpoint)"
+      description: "Model fallback chain is defined"
+      critical: true
+    - type: regex
+      target: "(retry|attempt|max|timeout|limit).*[0-9]"
+      description: "Maximum retry count or timeout is specified"
+      critical: false
+  expected_behavior: "Defines a structured error recovery strategy with the correct escalation order: first randomize seed, then adjust parameters (steps, CFG, denoise), then fall back to alternate model. Never retries with identical parameters"
+  edge_case: false
+
+- id: TC-003
+  name: multi-shot-video-with-transitions
+  prompt: "I need to produce a 30-second product video with 4 different shots: close-up, rotating view, lifestyle scene, and brand outro"
+  assertions:
+    - type: regex
+      target: "(shot|scene|segment|stage).*[1-4]|(close.up|rotat|lifestyle|outro)"
+      description: "Pipeline has separate generation stages for each shot"
+      critical: true
+    - type: regex
+      target: "(each|every|per).*(validat|check|gate)"
+      description: "Each shot has its own validation gate"
+      critical: true
+    - type: regex
+      target: "(concat|merge|combin|assembl)"
+      description: "Concatenation step comes after all shots"
+      critical: true
+    - type: regex
+      target: "(consisten|style|lighting|color|uniform)"
+      description: "Consistency strategy across shots"
+      critical: false
+  expected_behavior: "Plans a multi-shot pipeline where each shot is generated and validated independently before concatenation. Validation gates ensure each shot meets quality threshold before proceeding to assembly"
+  edge_case: false
+
+- id: TC-004
+  name: validation-before-animation
+  prompt: "Create a txt2vid pipeline — generate a character and then animate them walking"
+  assertions:
+    - type: regex
+      target: "(generat|image).*before.*(animat|video)"
+      description: "Image generation happens before animation"
+      critical: true
+    - type: regex
+      target: "(validat|check|gate).*(between|after.*generat)"
+      description: "Validation check exists between image generation and animation step"
+      critical: true
+    - type: structure_check
+      target: "Pipeline follows: generate image → validate image → animate → validate video → output"
+      description: "Semantic check — requires understanding full pipeline ordering with all validation gates"
+      critical: true
+    - type: not_contains
+      target: "generate and animate simultaneously"
+      critical: true
+  expected_behavior: "Strictly orders the pipeline: first generate the character image, then validate it passes quality checks, THEN animate. Does not skip the validation gate between generation and animation"
+  edge_case: true
+
+- id: TC-005
+  name: vram-aware-pipeline-staging
+  prompt: "I have a 12GB GPU. Plan a video pipeline that generates 3 character clips and composites them together"
+  assertions:
+    - type: regex
+      target: "(12\\s*GB|VRAM|memory|GPU)"
+      description: "VRAM constraints acknowledged"
+      critical: true
+    - type: regex
+      target: "(unload|free|release|clear).*(model|memory|VRAM)"
+      description: "Model unloading between heavy stages is mentioned"
+      critical: true
+    - type: regex
+      target: "(sequential|one.at.a.time|serial)"
+      description: "Sequential rather than parallel generation given VRAM constraints"
+      critical: true
+    - type: not_contains
+      target: "parallel generation"
+      description: "Does not suggest parallel generation which would exceed VRAM"
+      critical: false
+    - type: regex
+      target: "[0-9]+\\s*GB"
+      description: "VRAM estimate per stage is provided"
+      critical: false
+  expected_behavior: "Recognizes 12GB VRAM as a constraint and plans sequential generation with model unloading between stages rather than attempting parallel generation that would OOM"
+  edge_case: false
+
+- id: TC-006
+  name: audio-inclusive-video-pipeline
+  prompt: "I need a 15-second product showcase video with voiceover narration and background music. The narrator describes features while the product rotates."
+  assertions:
+    - type: regex
+      target: "(audio|voice|TTS|narrat|speech|sound)"
+      critical: true
+      description: "Must address the audio/voice component"
+    - type: regex
+      target: "(sync|align|timing|duration|match)"
+      critical: true
+      description: "Must address audio-video synchronization"
+    - type: regex
+      target: "(rotat|spin|turntable|orbit)"
+      critical: true
+      description: "Must address the rotation animation"
+    - type: contains
+      target: "validation"
+      critical: false
+  expected_behavior: >
+    Combines video generation with audio pipeline — TTS for voiceover,
+    audio sync for timing, and multi-shot composition. The skill should
+    plan the audio pipeline alongside video, not just focus on visuals.
+  edge_case: false
+
+- id: TC-007
+  name: comfyui-crash-recovery
+  prompt: "ComfyUI froze mid-generation on a 48-frame Wan video. The progress bar stopped at 60% and the GPU shows 100% utilization but nothing is happening. What do I do?"
+  assertions:
+    - type: regex
+      target: "(kill|terminate|restart|stop|close|end process)"
+      critical: true
+      description: "Must advise how to recover the stuck process"
+    - type: regex
+      target: "(VRAM|memory|OOM|out of memory|GPU)"
+      critical: true
+      description: "Should diagnose likely cause (VRAM/OOM for 48 frames)"
+    - type: regex
+      target: "(reduce|fewer|shorter|lower|decrease).*(frame|step|resolution)"
+      critical: true
+      description: "Should suggest reducing frame count or resolution"
+    - type: regex
+      target: "(save|checkpoint|resume|recover)"
+      critical: false
+      description: "May suggest recovery strategies for partial progress"
+  expected_behavior: >
+    48 frames at high resolution likely caused an OOM that manifests as a
+    GPU hang. The skill should diagnose this, advise recovery (kill process,
+    clear VRAM), and suggest prevention (reduce frames, use tiling, lower
+    resolution).
+  edge_case: true

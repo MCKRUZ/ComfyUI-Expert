@@ -1,0 +1,167 @@
+- id: TC-001
+  name: simple-sdxl-txt2img
+  prompt: "Generate a ComfyUI workflow for a simple SDXL text-to-image of a sunset over mountains"
+  assertions:
+    - type: json_valid
+      description: "Output is valid JSON with nodes"
+      critical: true
+    - type: contains
+      target: "CheckpointLoaderSimple"
+      critical: true
+    - type: contains
+      target: "KSampler"
+      critical: true
+    - type: regex
+      target: "1024"
+      description: "Resolution is 1024 (SDXL-native)"
+      critical: true
+    - type: not_contains
+      target: "512x512"
+      description: "Does not use SD1.5 resolution for SDXL"
+      critical: true
+  expected_behavior: "Produces a valid SDXL txt2img workflow with correct resolution, valid node types, and proper connections from checkpoint loader through sampler to image output"
+  edge_case: false
+
+- id: TC-002
+  name: checkpoint-loader-output-indices
+  prompt: "Build a ComfyUI workflow using SDXL with separate CLIP text encode for positive and negative prompts"
+  assertions:
+    - type: structure_check
+      target: "CheckpointLoaderSimple output index 0 connects to MODEL input, index 1 connects to CLIP inputs, index 2 connects to VAE input"
+      description: "Semantic check — requires JSON graph analysis to verify output index wiring"
+      critical: true
+    - type: not_contains
+      target: "CLIP output from index 0 of CheckpointLoader"
+      critical: true
+    - type: structure_check
+      target: "All node connections reference valid output indices for their source node type"
+      description: "Semantic check — requires JSON graph analysis to verify connection validity"
+      critical: true
+  expected_behavior: "Output indices are correct: CheckpointLoaderSimple outputs MODEL at 0, CLIP at 1, VAE at 2. Both CLIPTextEncode nodes receive CLIP from index 1, not index 0"
+  edge_case: true
+
+- id: TC-003
+  name: lora-stacked-workflow
+  prompt: "Create a workflow that loads an SDXL checkpoint, applies two LoRAs (one for style, one for character), and generates a portrait"
+  assertions:
+    - type: contains
+      target: "LoraLoader"
+      critical: true
+    - type: structure_check
+      target: "LoRA loaders are chained: first LoRA output MODEL/CLIP feeds into second LoRA input"
+      description: "Semantic check — requires JSON graph analysis to verify LoRA chaining"
+      critical: true
+    - type: structure_check
+      target: "Second LoRA output MODEL connects to KSampler, second LoRA output CLIP connects to CLIPTextEncode"
+      description: "Semantic check — requires JSON graph analysis to verify final LoRA connections"
+      critical: true
+    - type: structure_check
+      target: "No dangling inputs — every required input on every node has a connection or value"
+      description: "Semantic check — requires full graph traversal to verify completeness"
+      critical: true
+  expected_behavior: "LoRA loaders are chained correctly with MODEL and CLIP passing through each loader sequentially before reaching the sampler and text encoders"
+  edge_case: false
+
+- id: TC-004
+  name: controlnet-depth-workflow
+  prompt: "Make a ComfyUI workflow that uses a depth ControlNet with SDXL to generate an interior design scene from a depth map"
+  assertions:
+    - type: contains
+      target: "ControlNetLoader"
+      critical: true
+    - type: contains
+      target: "ControlNetApplyAdvanced"
+      critical: false
+    - type: regex
+      target: "(conditioning|positive).*ControlNet|ControlNet.*(conditioning|positive)"
+      description: "ControlNet conditioning applied to positive prompt conditioning"
+      critical: true
+    - type: structure_check
+      target: "Image loader node feeds into ControlNet apply node, not into the sampler latent input"
+      description: "Semantic check — requires JSON graph analysis to verify image routing"
+      critical: true
+  expected_behavior: "ControlNet is loaded and applied to conditioning before reaching the sampler. Depth map image is loaded and connected to the ControlNet apply node correctly"
+  edge_case: false
+
+- id: TC-005
+  name: sd15-not-sdxl-resolution
+  prompt: "Build a workflow using Deliberate v2 (SD 1.5 model) to generate anime character art"
+  assertions:
+    - type: contains
+      target: "512"
+      description: "Resolution is 512-based (SD1.5 native)"
+      critical: true
+    - type: not_contains
+      target: "width: 1024"
+      critical: true
+    - type: not_contains
+      target: "SDXLClipTextEncode"
+      description: "No SDXL-specific nodes used with SD1.5 model"
+      critical: true
+    - type: contains
+      target: "CLIPTextEncode"
+      critical: true
+  expected_behavior: "Recognizes Deliberate v2 as an SD1.5 model and uses 512-native resolution, standard CLIPTextEncode (not SDXL variant), and SD1.5-appropriate settings"
+  edge_case: false
+
+- id: TC-006
+  name: flux-specific-workflow
+  prompt: "Create a ComfyUI workflow for FLUX.1 Dev text-to-image of a portrait photo"
+  assertions:
+    - type: json_valid
+      critical: true
+    - type: not_contains
+      target: "CheckpointLoaderSimple"
+      critical: true
+      description: "FLUX uses LoadDiffusionModel, not CheckpointLoaderSimple"
+    - type: regex
+      target: "(LoadDiffusionModel|UNETLoader|DiffusionModelLoader)"
+      critical: true
+      description: "Must use FLUX-appropriate model loader"
+    - type: regex
+      target: "(DualCLIP|CLIPLoader.*flux|t5xxl)"
+      critical: false
+      description: "FLUX requires dual CLIP (CLIP-L + T5XXL)"
+    - type: regex
+      target: "(3\\.5|4\\.0|cfg.*[3-5])"
+      critical: false
+      description: "FLUX uses lower CFG values (3-5)"
+    - type: contains
+      target: "1024"
+      critical: true
+      description: "FLUX generates at 1024x1024 minimum"
+  expected_behavior: >
+    FLUX has a completely different architecture from SD/SDXL. It uses
+    LoadDiffusionModel (not CheckpointLoaderSimple), requires separate
+    VAE loading, uses dual CLIP (CLIP-L + T5XXL), and operates at lower
+    CFG values. The workflow must reflect FLUX-specific node types.
+  edge_case: true
+
+- id: TC-007
+  name: wan-i2v-video-workflow
+  prompt: "Build a ComfyUI workflow for Wan 2.1 image-to-video — I have a landscape photo and want a 4-second clip with gentle camera pan"
+  assertions:
+    - type: json_valid
+      critical: true
+    - type: regex
+      target: "(Wan|wan|WAN)"
+      critical: true
+      description: "Must reference Wan model"
+    - type: regex
+      target: "(I2V|img2vid|image.to.video|ImageEncode)"
+      critical: true
+      description: "Must be an I2V pipeline, not txt2vid"
+    - type: regex
+      target: "(frame|frames|[0-9]+f|duration|length)"
+      critical: true
+      description: "Must specify frame count for video output"
+    - type: regex
+      target: "(camera|pan|motion|movement)"
+      critical: false
+      description: "Should address the camera pan request"
+  expected_behavior: >
+    Wan I2V workflows require specific nodes: image encoder, latent
+    preparation with frame count, and video-specific sampling. The workflow
+    must load the input image, encode it, set up the correct number of frames
+    for 4 seconds, and configure camera motion parameters.
+  edge_case: false

@@ -1,0 +1,29 @@
+skill_type: capability_uplift
+baseline_expected_score: "20%"
+with_skill_target_score: "80%"
+token_overhead_acceptable: "25%"
+manual_correction_reduction: "70%"
+test_case_count: 7
+happy_path_cases: 5
+failure_mode_cases: 1
+comparison_criteria:
+  - criterion: "Pipeline steps follow validation-gated pattern (generate → validate → next stage)"
+    weight: 0.30
+    assertion_types: [regex, contains, structure_check]
+    anchor: "partial — validation keyword anchored, full ordering is semantic"
+  - criterion: "Error recovery follows correct escalation (seed → params → model fallback)"
+    weight: 0.25
+    assertion_types: [regex, not_contains]
+    anchor: "seed/fallback keywords and retry-order regex"
+  - criterion: "Correct pipeline type selected for the task (img2vid, txt2vid, vid2vid, multi-shot)"
+    weight: 0.15
+    assertion_types: [regex]
+    anchor: "pipeline type keyword matched by regex"
+  - criterion: "VRAM-aware step ordering with model unloading between heavy stages"
+    weight: 0.15
+    assertion_types: [regex, not_contains]
+    anchor: "VRAM/unload keywords and anti-pattern exclusion"
+  - criterion: "Model fallback chains are defined and ordered correctly"
+    weight: 0.15
+    assertion_types: [regex]
+    anchor: "fallback/secondary model keywords matched by regex"
