@@ -185,3 +185,306 @@ ComfyUI now has **native AMD ROCm integration** with reported 5.4x faster image 
 - [ComfyUI Wiki News](https://comfyui-wiki.com/en/news) — aggregated news with dates
 - [RunComfy Workflows](https://www.runcomfy.com) — curated community workflows with previews
 - [NVIDIA RTX AI Blog](https://blogs.nvidia.com/blog/rtx-ai-garage-ces-2026-open-models-video-generation/) — hardware optimization announcements
+
+---
+
+## 2026 Updates — March Research Run
+
+<!-- Updated: 2026-03-18 | Source: ComfyUI Changelog, GitHub Releases, HuggingFace, ComfyUI Blog, NVIDIA Blog, Community -->
+
+### ComfyUI Core Updates (v0.16.4 - v0.17.2)
+
+**ComfyUI v0.17.2** (March 15, 2026) is the latest stable release, following v0.17.0 (March 13) and v0.16.4 (March 7). Major changes since Feb 2026:
+
+**Architecture & Performance (v0.17.0)**:
+- Modular asset architecture with asynchronous two-phase scanner and background seeder for improved loading performance
+- Python fault handler for better debugging and stability
+- Enhanced memory usage optimization for KV cache models
+- FLUX.2 Klein KV cache support via new FluxKVCache node
+- Improved dynamic VRAM handling with better AcceleratorError compatibility
+
+**New Model Support (v0.16-v0.17)**:
+- Wav2vec2 Audio Encoder for audio-to-embedding workflows
+- Qwen DiffSynth ControlNets (Canny, Depth conditioning)
+- InstantX Qwen ControlNet integration
+- AudioEncoderOutput V3 support
+- Reve Image API nodes
+
+**New Nodes & Features (v0.16.4)**:
+- Math Expression node with simpleeval evaluation
+- TencentSmartTopology API node
+- Topaz video enhancement workflow support
+- Nano Banana Pro API node
+- Rodin3D Gen-2 (image-to-3D, via Partner Nodes)
+- WAN 2.5 Image-to-Image API node for image editing
+
+**App Mode, App Builder & ComfyHub** (March 10, 2026) — the biggest ecosystem shift:
+- App Mode transforms any workflow into a clean UI with one click — node graph disappears, replaced by just the inputs/outputs
+- App Builder lets workflow authors configure which inputs/outputs are exposed
+- ComfyHub is a publishing platform for finished apps and workflows (like npm registry, but for ComfyUI apps)
+- Shareable URLs for apps — no ComfyUI knowledge needed to use them
+- Available on both Comfy Cloud and Comfy Local
+- Source: [ComfyUI Blog](https://blog.comfy.org/p/from-workflow-to-app-introducing), [GlobeNewsWire](https://www.globenewswire.com/news-release/2026/03/10/3253141/0/en/)
+
+**Nodes 2.0 (Vue Migration)** — now in stable/desktop/portable releases:
+- Frontend migrated from LiteGraph.js Canvas to Vue-based architecture
+- Enables faster feature development and richer node interactions
+- Full backward compatibility maintained — all existing workflows load without modification
+- Optional — can switch back in settings if needed
+- Source: [ComfyUI Blog](https://blog.comfy.org/p/comfyui-node-2-0)
+
+### Video Generation — Major New Models
+
+**WAN 2.6 Reference-to-Video** (January 2026):
+- Generates cinematic video by learning motion, camera, and visual style from reference clips
+- Supports up to 2 reference clips, 720p and 1080p output (portrait or landscape)
+- Native audio generation for voiceovers, background music, and SFX aligned with visuals
+- Precise lip-sync and audio-visual synchronization (major upgrade over 2.5)
+- Prompt-based control over actions and scenes
+- Available in ComfyUI: Workflow Library -> Video -> WAN 2.6 Reference to Video
+- Source: [ComfyUI Blog](https://blog.comfy.org/p/wan26-reference-to-video)
+
+**WAN 2.5** — API nodes added to ComfyUI:
+- Audio conditioning (use audio as input with prompts or keyframes)
+- 4K resolution support, longer/smoother clips
+- Advanced cinematic camera and lighting controls
+- Image-to-Image editing via API node
+- Source: [ComfyUI Blog](https://blog.comfy.org/p/wan-25-preview-api-nodes-in-comfyui)
+
+**LTX-2.3** (March 5, 2026) — Day-0 ComfyUI v0.16 support:
+- Major quality improvements: finer details (new latent space + updated VAE), 9:16 portrait support, cleaner audio, improved I2V
+- Ships with updated ComfyUI custom nodes and reference workflows
+- Model weights: ~44GB full, ~22GB fp16, plus distilled variant for faster inference
+- GGUF versions available for lower VRAM
+- VRAM: 24GB+ recommended; RTX 4090 FP16 at 1080p/50fps: ~7-8 minutes for 10s clip
+- Source: [ComfyUI Blog](https://blog.comfy.org/p/ltx-23-day-0-supporte-in-comfyui), [Lightricks](https://ltx.io/model/ltx-2-3)
+
+**HunyuanVideo 1.5** — native ComfyUI support:
+- Lightweight 8.3B parameter model (down from 13B) delivering flagship quality on 24GB consumer GPUs
+- Strong instruction following for camera movements, physics, emotional expressions
+- Native 720p output, upscalable to 1080p
+- Also supported via kijai's ComfyUI-HunyuanVideoWrapper
+- Source: [ComfyUI Blog](https://blog.comfy.org/p/hunyuanvideo-15-native-support)
+
+**SkyReels V1** (January 29, 2026):
+- First open-source human-centric video foundation model from Skywork AI
+- Fine-tuned from HunyuanVideo on millions of film/TV clips
+- 33 distinct facial expressions with 400+ natural movement combinations
+- 544x960 at 24fps, up to 12 seconds (288 frames)
+- ComfyUI integration via kijai's HunyuanVideo wrapper (converts to HunyuanVideo format)
+- Source: [GitHub](https://github.com/SkyworkAI/SkyReels-V1)
+
+**FramePack** — continued evolution:
+- Updated to ComfyUI v0.3.39 for stability and compatibility
+- SageAttn integration for 30% faster generation
+- 1.5-2.5 seconds per frame on RTX 4090
+- Minimum 6GB VRAM, supports RTX 30XX/40XX/50XX
+- Still the best option for long videos (60+ seconds) on consumer hardware
+- Source: [RunComfy](https://www.runcomfy.com/comfyui-workflows/framepack-wrapper-for-comfyui-long-video-generation-with-low-memory)
+
+### Image Generation — New Models & Updates
+
+**FLUX.2 [dev]** — 32B parameter model, now the FLUX flagship:
+- Up to 4MP photorealistic output with improved lighting, skin, fabric, hands
+- Multi-reference consistency (up to 10 images), improved editing precision
+- Direct pose control for explicit subject positioning
+- Professional text rendering (infographics, UI screens, multilingual)
+- NVIDIA-optimized: FP8 quantization = 40% less VRAM + 40% faster at launch
+- VRAM: 24GB+ (FP8 version works on RTX 3090/4090/5090)
+- Source: [NVIDIA Blog](https://blogs.nvidia.com/blog/rtx-ai-garage-flux-2-comfyui/), [BFL](https://bfl.ai/blog/flux-2)
+
+**FLUX.2 [klein]** — fast small models:
+- 4B and 9B parameter variants for speed and low compute
+- 4B distilled: ~1.2s on RTX 5090, 8.4GB VRAM; 4B base: ~17s, 9.2GB VRAM
+- Sub-second generation possible on enterprise hardware
+- Open-weight 4B model available for commercial use
+- VRAM: 4B = 12GB+, 9B = 20GB+
+- Source: [VentureBeat](https://venturebeat.com/technology/black-forest-labs-launches-open-source-flux-2-klein-to-generate-ai-images-in/)
+
+**Z-Image-Base** (January 28, 2026):
+- Non-distilled raw checkpoint of the Z-Image series from Alibaba Tongyi Lab
+- Requires 30-50 sampling steps (CFG 3-5) but produces significantly richer visual details
+- Higher artistic ceiling compared to Z-Image-Turbo
+- VRAM: 12GB+ (Turbo), 16GB+ recommended (Base for quality)
+- Source: [ComfyUI Wiki](https://comfyui-wiki.com/en/news/2026-01-28-alibaba-z-image-base-release)
+
+**Qwen-Image 2.0** — major update from Alibaba:
+- 20B MMDiT model, Apache 2.0 license
+- Professional typography rendering: 1k-token instructions for PPTs, posters, comics
+- Native 2K resolution support
+- Layered editing variant (Qwen-Image-Layered): decompose images into RGBA layers
+- ControlNet support: DiffSynth (canny/depth/inpaint) + Union ControlNet (lineart/softedge/normal/openpose)
+- Qwen 2.5 Fun ControlNet format merged Feb 14, 2026
+- bf16 and fp8 versions available in ComfyUI
+- Source: [ComfyUI Docs](https://docs.comfy.org/tutorials/image/qwen/qwen-image)
+
+**FLUX Kontext [dev]** — continued community adoption:
+- Context-aware editing with built-in character consistency
+- Group nodes and quick Edit button added for iterative editing
+- Fix for Load Image(from output) node enabling multi-round editing chains
+- Still API-only for Pro/Max tiers
+- Source: [ComfyUI Docs](https://docs.comfy.org/tutorials/flux/flux-1-kontext-dev)
+
+### Identity Preservation — Updates
+
+**PuLID Flux 2** (March 2026):
+- First PuLID implementation for FLUX.2 family (Klein 4B/9B + Dev 32B)
+- Auto model detection between Klein and Dev variants
+- Best results: PuLID at low weight (0.2-0.3) combined with Klein's native Reference Conditioning
+- Compatible with TeaCache and WaveSpeed for faster processing
+- Source: [GitHub](https://github.com/iFayens/ComfyUI-PuLID-Flux2)
+
+**InfiniteYou** — status update:
+- Official ComfyUI native node from ByteDance (ICCV 2025 Highlight)
+- Still the SOTA for zero-shot identity preservation on FLUX
+- Two variants: sim_stage1 (identity priority), aes_stage2 (aesthetics priority)
+- Multi-character support, face pose control, face swap, face combine features
+- VRAM: 24GB
+- Source: [GitHub](https://github.com/bytedance/ComfyUI_InfiniteYou)
+
+**InstantID** — maintenance mode:
+- ComfyUI_InstantID by cubiq is in "maintenance only" mode as of April 2025
+- Last updated September 2024; SDXL only
+- Still functional but no longer recommended for new projects
+- Replaced by InfiniteYou and FLUX Kontext for most use cases
+- Source: [GitHub](https://github.com/cubiq/ComfyUI_InstantID)
+
+**IP-Adapter FLUX** — stable but not actively developed:
+- Shakker-Labs implementation last updated February 2025
+- Uses google/siglip-so400m-patch14-384 as image encoder
+- 128 image tokens, trained on 10M images
+- Supports multiple IP-adapters simultaneously
+- Source: [GitHub](https://github.com/Shakker-Labs/ComfyUI-IPAdapter-Flux)
+
+### Voice / TTS — Rapid Expansion
+
+**TTS Audio Suite** — now supports 11 engines:
+- Engines: ChatterBox (classic + 23-lang), F5-TTS, Higgs Audio 2, VibeVoice (90min), IndexTTS-2, CosyVoice3, Qwen3-TTS, Echo-TTS, Step Audio EditX, RVC
+- Unified interface with character switching, language switching, SRT timing
+- Actively maintained by diodiogod
+- Source: [GitHub](https://github.com/diodiogod/TTS-Audio-Suite)
+
+**Qwen3-TTS** (January 2026) — significant new entrant:
+- From Alibaba Cloud's Qwen team
+- 10 languages: Chinese, English, Japanese, Korean, German, French, Russian, Portuguese, Spanish, Italian
+- Zero-shot voice cloning from short reference audio
+- Voice design from text descriptions ("calm", "energetic", "young")
+- Ultra-low latency streaming
+- Multiple ComfyUI integrations: ComfyUI-Qwen-TTS, ComfyUI-Qwen3-TTS, ComfyUI-FL-Qwen3TTS, 1038lab/ComfyUI-QwenTTS
+- Also integrated into TTS Audio Suite
+- Source: [Qwen Blog](https://qwen.ai/blog?id=qwen3tts-0115)
+
+**IndexTTS-2** — emotion control matured:
+- 8-slider emotion vectors (0.0-1.4 range, sum <= 1.5)
+- Text-based emotion detection via QwenEmotion model
+- Audio reference for emotional tone transfer
+- Advanced controls: sampling, speech speed, pauses, CFG, seed
+- ComfyUI node: ComfyUI-IndexTTS2 + integrated in TTS Audio Suite
+- Source: [GitHub](https://github.com/snicolast/ComfyUI-IndexTTS2)
+
+**Chatterbox Turbo** — latest from Resemble AI:
+- 350M parameter architecture, sub-200ms inference latency
+- Native paralinguistic tags: [cough], [laugh], [chuckle]
+- 63.75% preferred over ElevenLabs in evaluator testing
+- MIT license
+- 2026 roadmap: multi-speaker conversation generation, prosody transfer
+- Source: [Resemble AI](https://www.resemble.ai/chatterbox/)
+
+**VibeVoice** — Microsoft's frontier model:
+- Expressive, long-form, multi-speaker conversational audio
+- Up to 90 minutes continuous generation per session
+- Standalone node: ComfyUI-VibeVoice + integrated in TTS Audio Suite
+- Source: [GitHub](https://github.com/wildminder/ComfyUI-VibeVoice)
+
+### LoRA Training — Tool Updates
+
+**Musubi Tuner** — expanded model support:
+- Now supports: HunyuanVideo, Wan 2.1/2.2, FramePack, FLUX.1 Kontext, FLUX.2 dev/klein, Qwen-Image, Z-Image
+- Activation CPU offloading during gradient checkpointing: 20-30% VRAM reduction
+- Improved .safetensors loading with np.memmap: 1.5x faster model initialization
+- FP8 scaled quantization changed to block-wise scaling for improved accuracy (saves ~5GB for Qwen-Image)
+- Z-Image base model support added January 2026
+- Source: [GitHub](https://github.com/kohya-ss/musubi-tuner)
+
+**Ostris AI Toolkit** — FLUX.2 support:
+- Now supports FLUX.2 [dev] (32B), FLUX.2 Klein (4B/9B), Wan, Qwen-Image, Z-Image, OmniGen2
+- Fix for FLUX.2 Klein load-time VRAM spikes on low-memory GPUs (Feb 25, 2026)
+- Apple silicon MPS support proposed (Feb 21, 2026)
+- Source: [GitHub](https://github.com/ostris/ai-toolkit)
+
+**Kohya ss (sd-scripts)** — continued gold standard:
+- Added IP noise gamma for FLUX, CFG for sampling in FLUX.1 training
+- Support for HunyuanImage-2.1
+- PyTorch 2.6.0 + torchvision 0.21.0 for CUDA 12.4
+- Prodigy optimizer for auto-tuning still recommended
+- Source: [GitHub](https://github.com/kohya-ss/sd-scripts)
+
+**FLUX.2 LoRA Training Best Practices (2026)**:
+- 20-1,000 images recommended for FLUX.2
+- Training time: ~90 min on 16GB+ VRAM, ~45-60 min on 24GB+ VRAM
+- GGUF quantization enables training on consumer hardware
+- CogVLM for auto-captioning, WD-Tagger for anime
+- Much lower learning rates than SDXL due to flow matching architecture
+- Higher ranks work better (start higher than SDXL recommendations)
+- Source: [Medium](https://kgabeci.medium.com/flux-2-lora-training-the-complete-2026-guide-from-someone-who-built-the-training-platform-14d0bcb396eb)
+
+### Performance Optimization — New Tools
+
+**Nunchaku v1.2.0** (January 12, 2026):
+- SVDQuant 4-bit quantization: 3.6x model size reduction, 3.5x VRAM reduction
+- 20-30% Z-Image performance boost
+- Seamless LoRA support with native ComfyUI nodes
+- INT4 support for RTX 20-series GPUs
+- Minimum 4GB VRAM for FLUX with per-layer CPU offloading
+- 2-3x speedup maintained
+- Source: [GitHub](https://github.com/nunchaku-ai/nunchaku)
+
+**WaveSpeed — First Block Cache (FBCache)**:
+- Uses first transformer block residual output as cache indicator
+- Skips computation of all following blocks when difference is small
+- Up to 2x speedup while maintaining accuracy
+- Enhanced torch.compile works with LoRA (unlike native TorchCompileModel)
+- Source: [GitHub](https://github.com/chengzeyi/Comfy-WaveSpeed)
+
+**TeaCache** — no-training post-processing acceleration:
+- L1 regularization evaluation for real-time feature map monitoring
+- Adaptive cache update strategy based on content
+- 30% efficiency improvement for Wan 2.1 video generation
+- Seamlessly integrates into existing workflows
+- Source: [Oreate AI Blog](https://www.oreateai.com/blog/comfyui-wan-21-technical-analysis-teacache-acceleration-solution-achieves-30-improvement-in-video-generation-efficiency/)
+
+### Notable Custom Nodes (New/Updated)
+
+| Node Pack | Purpose | Status |
+|-----------|---------|--------|
+| ComfyUI-WanVideoWrapper (kijai) | Wan 2.1/2.2/2.6 + SkyReels wrapper | Actively maintained |
+| ComfyUI-KJNodes (kijai) | 180+ QoL nodes, VRAM debug, visual editors | Actively maintained |
+| Comfy-WaveSpeed | FBCache + enhanced torch.compile | Actively maintained |
+| ComfyUI-nunchaku | SVDQuant 4-bit quantization | v1.2.0 Jan 2026 |
+| TTS-Audio-Suite | 11 TTS engines unified | Actively maintained |
+| ComfyUI-PuLID-Flux2 | PuLID for FLUX.2 family | New March 2026 |
+| ComfyUI_InfiniteYou | ByteDance official ICCV node | Actively maintained |
+| Comfyui-LayerForge | Photoshop-like layer canvas editor | Actively maintained |
+
+### 3D Generation — Updates
+
+**Hunyuan3D-2.1** — fully open-sourced:
+- New PBR model, VAE encoder, all training code released
+- Advanced post-processing via Partner Nodes
+- Raw mesh to usable asset in single workflow
+- Source: [GitHub](https://github.com/Tencent-Hunyuan/Hunyuan3D-2)
+
+**Rodin3D Gen-2** — added to ComfyUI v0.16.4 as Partner Node:
+- Image-to-3D generation directly in ComfyUI
+- Source: [ComfyUI Changelog](https://docs.comfy.org/changelog)
+
+### Community Resources (Updated March 2026)
+
+- [ComfyUI Changelog](https://docs.comfy.org/changelog) — official releases
+- [ComfyUI Blog](https://blog.comfy.org/) — feature announcements, Day-0 model support
+- [ComfyUI Wiki News](https://comfyui-wiki.com/en/news) — aggregated news
+- [ComfyUI Forum](https://forum.comfy.org/latest) — community discussions
+- [RunComfy Workflows](https://www.runcomfy.com) — curated workflows
+- [Pixaroma GitHub](https://github.com/pixaroma/pixaroma-workflows) — YouTube episode workflow backups
+- [awesome-comfyui](https://github.com/ComfyUI-Workflow/awesome-comfyui) — daily-updated node collection
+- [NVIDIA RTX AI Blog](https://blogs.nvidia.com/blog/rtx-ai-garage-flux-2-comfyui/) — FLUX.2 optimizations

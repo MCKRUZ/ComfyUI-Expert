@@ -1,6 +1,6 @@
 ---
 name: comfyui-video-production
-description: Production-ready ComfyUI video pipeline orchestrator. Handles keyframe generation, I2V animation, video concatenation, quality validation, and ComfyUI instance management. Supports Wan 2.2 MoE, LTX-2, AnimateDiff, SVD, with automatic error recovery, transition effects, and resume capabilities. Use for: multi-shot video creation, keyframe workflows, batch I2V processing, video stitching, ComfyUI automation.
+description: Plan and orchestrate end-to-end video production pipelines in ComfyUI with validation gates and error recovery. Handles img2vid, txt2vid, vid2vid, and multi-shot video production. Produces pipeline plans with correct step ordering (generate, validate, animate, validate, concat), model selection, retry strategies (seed randomization, parameter adjustment, model fallback), and VRAM-aware resource management. Use when asked to make a video, animate images, create a multi-shot video, set up a video pipeline, or orchestrate video production in ComfyUI. Does NOT cover still image generation, prompt writing, workflow building for non-video tasks, video editing in external tools, model training, installation, or hardware recommendations.
 ---
 
 # ComfyUI Video Production Pipeline

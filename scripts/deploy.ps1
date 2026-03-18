@@ -31,7 +31,7 @@ if (Test-Path $charGenRefs) {
         "workflows.md",
         "lora-training.md",
         "voice-synthesis.md",
-        "research-2025.md",
+        "research-log.md",
         "evolution.md"
     )
 

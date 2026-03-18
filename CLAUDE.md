@@ -125,3 +125,31 @@ state/         Runtime state (inventory.json, session.json)
 scripts/       Utility scripts (scan-inventory, connect-comfyui, etc.)
 agent/         AGENT.md (detailed agent spec, read for complex orchestration)
 ```
+
+<!-- nexus:start -->
+## Nexus Intelligence
+
+*Auto-updated by Nexus — do not edit this section manually.*
+*Last sync: 2026-03-18*
+
+### Portfolio
+| Project | Description | Tech |
+|---------|------------|------|
+| ComfyUI | **ComfyUI** — the main local ComfyUI installation at E:/ComfyUI-Easy-Install/Co… | — |
+| ComfyUI-Qwen-TTS | **ComfyUI-Qwen-TTS** — ComfyUI custom nodes for speech synthesis using Alibaba'… | — |
+| sage-voice | **sage-voice** — MCKRUZ project for Sage's voice capabilities.
+
+Sage is the AI … | — |
+| openclaw-voice | **OpenClaw Voice** — Discord voice bot enabling AI agents (Jarvis and Sage) to … | — |
+| matthewkruczek-ai | **matthewkruczek.ai** — static personal brand website for Matthew Kruczek (EY M… | — |
+| claude-code-mastery | **Claude Code Mastery** — the definitive Claude Code setup and configuration sk… | — |
+| ProjectPrism | **Prismcast / ProjectPrism** — autonomous AI news aggregation, synthesis, and v… | — |
+| **ComfyUI Expert** (this) | **VideoAgent / ComfyUI Expert** — session-scoped Claude Code orchestrator that … | — |
+| ArchitectureHelper | **AzureCraft / ArchitectureHelper** — AI-native Azure infrastructure designer f… | — |
+| Nexus | Nexus is a local-first cross-project intelligence layer for Claude Code. | — |
+| _+26 inactive_ | — | — |
+
+> **Cross-project rule**: Before making decisions that affect shared concerns (APIs, auth, data formats, deployment), run `nexus_query` to check for existing decisions and conflicts across the portfolio.
+
+*[Nexus: run `nexus query` to search full knowledge base]*
+<!-- nexus:end -->

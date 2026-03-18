@@ -203,5 +203,5 @@ Before marking video as complete:
 
 - `references/workflows.md` - Workflow templates for Wan and AnimateDiff
 - `references/models.md` - Video model download links
-- `references/research-2025.md` - Latest video generation advances
+- `references/research-log.md` - Latest video generation advances
 - `state/inventory.json` - Available video models

@@ -1,6 +1,6 @@
 ---
 name: comfyui-workflow-builder
-description: Generate ComfyUI workflow JSON from natural language descriptions. Validates against installed models/nodes before output. Use when building custom ComfyUI workflows from scratch or modifying existing ones.
+description: Generate, build, create, or design ComfyUI workflow JSON from natural language descriptions. Produces valid node graphs with correct class_types, connections, output indices, and model-appropriate settings. Handles txt2img, img2img, inpainting, ControlNet, LoRA stacking, upscaling, and face detailing pipelines. Does NOT cover ComfyUI installation, custom node development, Python scripting, model training, hardware advice, or architectural explanations.
 user-invocable: true
 metadata: {"openclaw":{"emoji":"🔧","os":["darwin","linux","win32"],"requires":{"anyBins":["curl","wget"]},"primaryEnv":"COMFYUI_URL"}}
 ---

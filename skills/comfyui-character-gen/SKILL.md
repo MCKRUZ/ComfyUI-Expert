@@ -1,6 +1,6 @@
 ---
 name: comfyui-character-gen
-description: Expert ComfyUI workflow builder for consistent AI character generation across image, video, and voice. Triggers on requests to create ComfyUI workflows, generate character-consistent images/videos, train LoRAs, use identity preservation methods (InfiniteYou, FLUX Kontext, PuLID Flux II, InstantID, IP-Adapter), create talking head videos, clone voices, or any multi-modal character generation pipeline. Covers FLUX Kontext, InfiniteYou, Wan 2.2 MoE, FramePack (6GB VRAM breakthrough), AnimateDiff V3, F5-TTS, Chatterbox, TTS Audio Suite, and all major 2024-2025 models.
+description: Build identity-preserving character generation workflows and pipelines in ComfyUI. Selects the optimal identity method (InfiniteYou, FLUX Kontext, PuLID, InstantID, IP-Adapter) based on use case requirements. Handles face preservation, likeness transfer, cross-domain conversion (3D to photo), multi-reference consistency, iterative character editing, and character variation generation. Triggers on requests to generate consistent characters, preserve identity across images, create face-swapping workflows, or convert 3D renders to photorealistic portraits. Does NOT cover general image generation without identity preservation, model training/LoRA fine-tuning, animation, technical explanations, or workflow debugging.
 ---
 
 # ComfyUI Character Generation Expert
@@ -173,7 +173,7 @@ When building a workflow for a user:
 
 ## Reference Files
 
-- `references/research-2025.md` - **Latest 2024-2025 techniques**: InfiniteYou, FLUX Kontext, PuLID Flux II, Wan 2.2 MoE, FramePack (6GB VRAM breakthrough), TTS Audio Suite, memory optimization discoveries
+- `references/research-log.md` - **Latest techniques**: InfiniteYou, FLUX Kontext, PuLID Flux II, Wan 2.2 MoE, FramePack, FLUX.2, LTX-2.3, Wan 2.6, Qwen3-TTS, and more
 - `references/models.md` - Complete model list with HuggingFace/Civitai links, file paths, and compatibility notes
 - `references/workflows.md` - Detailed node-by-node workflow templates for each pattern
 - `references/lora-training.md` - LoRA training guide with Kohya/AI-Toolkit parameters

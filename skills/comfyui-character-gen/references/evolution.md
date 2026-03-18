@@ -119,7 +119,7 @@ This skill is designed to evolve continuously. Monitor these sources and update 
 **FILES UPDATED:**
 - `references/staleness-report.md` — first full research run logged
 - `foundation/model-landscape.md` — Z-Image, SVI 2.0 Pro, Kling 3.0, Hunyuan 3D 3.0 added
-- `references/research-2025.md` — 2026 section appended
+- `references/research-log.md` — 2026 section appended
 - `foundation/skill-registry.md` — new prompt-interview skill registered
 
 ### v1.1.0 (February 2026 Update)
@@ -137,7 +137,7 @@ This skill is designed to evolve continuously. Monitor these sources and update 
 - Weight streaming memory management
 
 **DOCUMENTATION:**
-- Added 2026 updates section to research-2025.md
+- Added 2026 updates section to research-log.md
 - Updated all model recommendation tables
 - Updated Quick Decision guide with 2026 options
 - Updated RTX optimization section for v0.8.1

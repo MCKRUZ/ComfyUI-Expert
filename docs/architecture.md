@@ -93,7 +93,7 @@ Large files. Only loaded when a skill explicitly needs them.
 | `references/voice-synthesis.md` | Voice tools in depth |
 | `references/prompt-templates.md` | Model-specific prompts |
 | `references/troubleshooting.md` | Error database |
-| `references/research-2025.md` | Full technique survey |
+| `references/research-log.md` | Full technique survey (ongoing) |
 
 ## Skill Invocation Flow
 

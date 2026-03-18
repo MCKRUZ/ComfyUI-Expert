@@ -1,6 +1,6 @@
 # VideoAgent - ComfyUI Video Production Orchestrator
 
-A session-scoped AI orchestrator for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) that turns Claude into a senior video production technical director. It routes natural-language requests to 12 specialized skill modules covering the full pipeline: character image generation, video production, voice synthesis, LoRA training, and publishing -- all driven by [ComfyUI](https://github.com/comfyanonymous/ComfyUI).
+A session-scoped AI orchestrator for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) that turns Claude into a senior video production technical director. It routes natural-language requests to 13 specialized skill modules covering the full pipeline: character image generation, video production, voice synthesis, LoRA training, and publishing -- all driven by [ComfyUI](https://github.com/comfyanonymous/ComfyUI).
 
 ## Why This Exists
 
@@ -107,6 +107,9 @@ VideoAgent loads context incrementally to stay within Claude's context window:
 ```
 CLAUDE.md (orchestrator - always loaded)
     |
+    |-- Discovery (no dependencies)
+    |   |-- comfyui-prompt-interview Vision clarification via conversation
+    |
     |-- Foundation Skills (no dependencies)
     |   |-- comfyui-api              REST API connection
     |   |-- comfyui-inventory        Model/node discovery
@@ -120,8 +123,8 @@ CLAUDE.md (orchestrator - always loaded)
     |   |-- comfyui-workflow-builder Validated workflow JSON generation
     |
     |-- Production (depend on creation)
-    |   |-- comfyui-video-pipeline   Wan 2.2 / FramePack / AnimateDiff
-    |   |-- comfyui-voice-pipeline   Chatterbox / F5-TTS / lip-sync
+    |   |-- comfyui-video-pipeline   Wan 2.6 / LTX-2.3 / FramePack / AnimateDiff
+    |   |-- comfyui-voice-pipeline   Qwen3-TTS / Chatterbox / F5-TTS / lip-sync
     |   |-- comfyui-lora-training    Dataset prep, training, evaluation
     |
     |-- Output (depend on production)
@@ -138,9 +141,10 @@ When you make a request, `CLAUDE.md` routes it to the right skill:
 
 | You Say | Skill Loaded | What Happens |
 |---------|-------------|--------------|
+| "I have an idea for..." / vague concept | `comfyui-prompt-interview` | Guided conversation to clarify vision before generation |
 | "Generate a character portrait" | `comfyui-workflow-builder` | Checks inventory, builds workflow JSON, queues via API |
 | "Craft a better prompt" | `comfyui-prompt-engineer` | Model-specific optimization (FLUX vs SDXL vs Wan) |
-| "Create a video from this image" | `comfyui-video-pipeline` | Selects engine (Wan/FramePack/AnimateDiff), builds pipeline |
+| "Create a video from this image" | `comfyui-video-pipeline` | Selects engine (Wan 2.6/FramePack/LTX-2.3), builds pipeline |
 | "Clone this voice / make her talk" | `comfyui-voice-pipeline` | Voice synthesis + lip-sync pipeline |
 | "Train a LoRA" | `comfyui-lora-training` | Dataset prep, training config, checkpoint evaluation |
 | "Build a raw workflow" | `comfyui-workflow-builder` | Direct workflow construction with inventory validation |
@@ -151,7 +155,11 @@ When you make a request, `CLAUDE.md` routes it to the right skill:
 | "Create a new project" | `project-manager` | Project manifests, character profiles |
 | "Connect to ComfyUI" | `comfyui-api` | Connection test, system info |
 
-## The 12 Skills
+## The 13 Skills
+
+### Discovery
+
+**comfyui-prompt-interview** -- Guides you through a structured conversation before generating anything. Asks about subject, mood, style, setting, and intended use to produce a complete creative brief. Particularly useful for vague or high-level ideas ("I want something dramatic and cinematic"). Outputs a prompt-ready specification that feeds directly into `comfyui-prompt-engineer` or `comfyui-workflow-builder`.
 
 ### Foundation
 
@@ -173,14 +181,17 @@ When you make a request, `CLAUDE.md` routes it to the right skill:
 
 ### Production
 
-**comfyui-video-pipeline** -- Orchestrates three video engines based on requirements:
-- **Wan 2.2 MoE 14B**: Film-level quality, 5-10 sec clips, 24GB+ VRAM
+**comfyui-video-pipeline** -- Orchestrates video engines based on requirements:
+- **LTX-2.3**: 4K production quality, audio+video, GGUF-quantized options
+- **Wan 2.6**: 1080p reference-to-video, native audio generation, built-in lip-sync
+- **Wan 2.2 MoE 14B**: Film-level quality, first+last frame control, 24GB+ VRAM
 - **FramePack**: Long videos (60+ sec), VRAM-invariant (works on 6GB)
+- **HunyuanVideo 1.5**: Lightweight quality alternative at 8.3B params
 - **AnimateDiff V3**: Fast iteration, motion LoRAs, 4-8 step Lightning
 
 Includes post-processing (RIFE frame interpolation, face enhancement, deflicker, color correction) and a dedicated talking-head pipeline.
 
-**comfyui-voice-pipeline** -- Six voice synthesis tools (Chatterbox, F5-TTS, TTS Audio Suite, IndexTTS-2, RVC, ElevenLabs) and four lip-sync methods (Wav2Lip, SadTalker, LivePortrait, LatentSync 1.6). Three complete pipelines: Quick (image-to-talk), Quality (image-to-video-to-lip-sync), and Premium (expression transfer).
+**comfyui-voice-pipeline** -- Seven voice synthesis tools (Qwen3-TTS, Chatterbox Turbo, F5-TTS, TTS Audio Suite, IndexTTS-2, RVC, ElevenLabs) and four lip-sync methods (Wav2Lip, SadTalker, LivePortrait, LatentSync 1.6). Three complete pipelines: Quick (image-to-talk), Quality (image-to-video-to-lip-sync), and Premium (expression transfer). Wan 2.6 now also supports native lip-sync as a fifth path.
 
 **comfyui-lora-training** -- Training tools (AI-Toolkit for FLUX, Kohya_ss for SDXL, FluxGym/SimpleTuner for low VRAM). Covers dataset preparation (15-30 images, captioning strategy), hyperparameter guidance, checkpoint evaluation, and LoRA + zero-shot method combination.
 
@@ -201,35 +212,45 @@ The agent tracks the top models across five categories:
 ### Image Generation
 | Model | Best For | VRAM |
 |-------|----------|------|
-| FLUX.1-dev | Photorealism, highest quality | 16GB+ |
+| FLUX.2 [dev] | Photorealism, 4MP, multi-reference (up to 10 images) | 24GB+ |
+| FLUX.2 [klein] | Fast generation, low VRAM (4B/9B distilled) | 12-20GB+ |
 | FLUX Kontext | Iterative character editing | 12-32GB |
-| RealVisXL V5.0 | Fast SDXL photorealism | 8GB+ |
+| Qwen-Image 2.0 | Typography, 2K resolution, layered editing | 24GB+ |
+| Z-Image | Non-distilled quality (Base) / fast (Turbo, 8 steps) | 12-16GB+ |
 
 ### Identity Preservation
 | Method | Best For | VRAM |
 |--------|----------|------|
 | InfiniteYou | Highest identity fidelity | 24GB |
 | FLUX Kontext | Edit without retraining | 12-32GB |
-| PuLID Flux II | Dual characters, no pollution | 24-40GB |
+| PuLID Flux 2 | FLUX.2 family (Klein + Dev) | 24-40GB |
+| PuLID Flux II | FLUX.1 dual characters, no pollution | 24-40GB |
 
 ### Video Generation
 | Model | Best For | VRAM |
 |-------|----------|------|
-| Wan 2.2 MoE | Film-level quality | 24GB+ |
-| FramePack | Long videos, low VRAM | 6GB+ |
+| LTX-2.3 | 4K audio+video, portrait mode, production | 24GB+ |
+| Wan 2.6 | Reference-to-video, lip-sync, native audio gen, 1080p | 24GB+ |
+| Wan 2.2 MoE | Film-level quality, first+last frame control | 24GB+ |
+| HunyuanVideo 1.5 | Lightweight flagship quality (8.3B params) | 24GB |
+| FramePack | Long videos (60s+), VRAM-invariant | 6GB+ |
+| SkyReels V1 | Human-centric, 33 expressions, cinematic | 24GB+ |
 | AnimateDiff V3 | Fast iteration, motion LoRAs | 8GB+ |
 
 ### Voice / TTS
 | Tool | Best For | License |
 |------|----------|---------|
-| TTS Audio Suite | 23 languages, unified platform | Multi |
-| Chatterbox | Emotion tags, beats ElevenLabs 63.8% | MIT |
-| F5-TTS | Zero-shot cloning, fastest | MIT |
+| TTS Audio Suite | Unified 11-engine platform, 23 languages | Multi |
+| Qwen3-TTS | 10 languages, zero-shot clone, voice design | Open |
+| Chatterbox Turbo | Emotion tags, sub-200ms latency | MIT |
+| IndexTTS-2 | 8-emotion vector control via sliders | Open |
+| F5-TTS | Zero-shot cloning, works on 6GB VRAM | MIT |
 
 ### Lip-Sync
 | Tool | Best For |
 |------|----------|
 | LatentSync 1.6 | Highest accuracy (ByteDance) |
+| Wan 2.6 native | Reference-to-video with built-in lip-sync |
 | Wav2Lip | Proven, works with any face |
 | SadTalker | Head movement + expressions |
 
@@ -266,11 +287,12 @@ ComfyUI-Expert/
 |   |-- model-landscape.md       Top 3 models per category
 |   +-- skill-registry.md        Skill list & dependency map
 |
-|-- skills/                      12 skill modules (read on demand)
+|-- skills/                      13 skill modules (read on demand)
 |   |-- comfyui-api/
 |   |-- comfyui-inventory/
 |   |-- comfyui-lora-training/
 |   |-- comfyui-prompt-engineer/
+|   |-- comfyui-prompt-interview/
 |   |-- comfyui-research/
 |   |-- comfyui-troubleshooter/
 |   |-- comfyui-video-pipeline/
@@ -287,7 +309,7 @@ ComfyUI-Expert/
 |   |-- voice-synthesis.md       Voice tools in depth
 |   |-- prompt-templates.md      Model-specific prompt strategies
 |   |-- troubleshooting.md       Error database with solutions
-|   |-- research-2025.md         Full technique survey
+|   |-- research-log.md          Full technique survey (ongoing, replaces research-2025.md)
 |   |-- staleness-report.md      Freshness tracking for all entries
 |   +-- evolution.md             Update protocol & changelog
 |
@@ -300,7 +322,8 @@ ComfyUI-Expert/
 |   |-- scan-inventory.ps1       Offline ComfyUI directory scanner
 |   |-- connect-comfyui.ps1      Connection test & diagnostics
 |   |-- staleness-check.ps1      Session-start hook (checks research age)
-|   +-- deploy.ps1               Sync references to global skill
+|   |-- deploy.ps1               Sync references to global skill
+|   +-- sync-skills.ps1          Sync all skills to global Claude skills directory
 |
 |-- agent/
 |   +-- AGENT.md                 Extended orchestration spec
@@ -363,6 +386,7 @@ Configured in `.claude/settings.local.json` (project-local, doesn't affect other
 | `connect-comfyui.ps1` | Test ComfyUI connection & show diagnostics | `pwsh -File scripts/connect-comfyui.ps1` |
 | `staleness-check.ps1` | Check research freshness (session hook) | Runs automatically at session start |
 | `deploy.ps1` | Sync references to global `comfyui-character-gen` skill | `pwsh -File scripts/deploy.ps1` |
+| `sync-skills.ps1` | Sync all skill files to global Claude skills directory | `pwsh -File scripts/sync-skills.ps1` |
 
 ## Customization
 

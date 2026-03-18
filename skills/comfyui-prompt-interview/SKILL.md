@@ -1,6 +1,6 @@
 ---
 name: comfyui-prompt-interview
-description: Conducts a guided conversational interview with the user about the image or scene they want to create, asking pertinent questions to fully understand their vision, then synthesizes a perfect model-appropriate prompt with recommended settings. Use when the user says "I want to create...", "help me make an image of...", "I have an idea for...", or asks for help crafting a prompt.
+description: Guided conversational interview to understand a user's creative vision before generating model-appropriate image prompts. Asks clarifying questions about subject, mood, style, and technical preferences (4-7 exchanges), then synthesizes positive prompt, negative prompt, recommended settings table, and pipeline recommendation. Formats prompts for the target model (SDXL tag-style, FLUX natural language, SD1.5 weighted tokens). Triggers on "I want to create...", "help me make an image of...", "I have an idea for...", "help me craft a prompt", "write me a prompt for...", or any request for help describing a creative vision. Does NOT cover workflow building, prompt debugging/fixing, technical explanations, model training, code generation, or identity-preserving character generation.
 user-invocable: true
 metadata: {"openclaw":{"emoji":"🎬","os":["darwin","linux","win32"]}}
 ---
