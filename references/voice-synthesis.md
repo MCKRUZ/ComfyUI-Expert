@@ -1,5 +1,7 @@
 # Voice Synthesis & Lip-Sync Guide
 
+<!-- Updated: 2026-03-27 | Source: GitHub releases, ComfyUI docs, Boson AI blog, WebSearch -->
+
 Creating character voices and synchronizing them with video.
 
 ---
@@ -22,7 +24,42 @@ Creating character voices and synchronizing them with video.
 
 ## Voice Cloning Options
 
+### Higgs Audio 2 (Boson AI) — NEW 2026
+
+**Why Higgs Audio 2:**
+- Pretrained on 10 million+ hours of audio
+- State-of-the-art multi-speaker dialog (up to 4 simultaneous speakers)
+- 24kHz crystal-clear output
+- Zero-shot voice cloning from seconds of reference audio
+- Melodic humming, background music co-generation
+- Beats gpt-4o-mini-tts 75.7% win rate on emotion evaluation
+- Open source (github.com/boson-ai/higgs-audio)
+
+**ComfyUI Setup (TTS Audio Suite):**
+- Use ⚙️ **Higgs Audio 2 Engine** node — models download automatically
+- Models auto-placed at `ComfyUI/models/TTS/HiggsAudio/higgs-audio-v2-3B/`
+- Install via ComfyUI Manager: search "TTS Audio Suite"
+
+**Multi-speaker syntax:**
+```
+[Alice] Hello, this is Alice speaking.
+[Bob] And this is Bob responding.
+[pause:1s]
+[Alice] We can have natural conversations.
+```
+
+**Character voices:**
+- Place `.wav` reference files in the voices folder
+- Up to 4 speakers in a single generation pass
+
+---
+
 ### Chatterbox (Recommended Open-Source)
+
+**Chatterbox family (3 tiers as of 2026):**
+- **Chatterbox Classic** (0.5B Llama, 500K hrs training): Emotion control, zero-shot cloning
+- **Chatterbox Multilingual**: 23+ language support, automatic model management
+- **Chatterbox Turbo**: 350M params, distilled to 1-step decoder, sub-200ms, best for voice agents
 
 **Why Chatterbox:**
 - Beat ElevenLabs in 63.8% of blind preference tests
@@ -30,7 +67,8 @@ Creating character voices and synchronizing them with video.
 - Only needs 5-second voice sample
 - Emotion exaggeration control
 - Native paralinguistic tags ([laugh], [sigh], etc.)
-- Sub-200ms latency
+- Sub-200ms latency (Turbo)
+- Perth Watermarker — imperceptible neural watermark in all generated audio
 
 **Installation:**
 ```bash
@@ -63,6 +101,8 @@ tts.synthesize(
 ```
 
 ### F5-TTS
+
+**Current version**: v1.1.18 (March 24, 2026) — `pip install f5-tts`
 
 **Strengths:**
 - Zero-shot cloning from seconds of audio

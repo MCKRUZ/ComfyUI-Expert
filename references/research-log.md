@@ -1,3 +1,69 @@
+# Research Log
+
+---
+
+## March 27, 2026 — Weekly Research Sweep
+
+**Sources:** ComfyUI Changelog, GitHub releases, HuggingFace, ComfyUI Blog, xAI announcements, Boson AI blog, YouTube channel research (EP metadata), WebSearch (25+ queries)
+
+### ComfyUI Version Updates (Last 7 Days)
+
+| Version | Date | Key Changes |
+|---------|------|-------------|
+| v0.18.2 | March 25, 2026 | Grok Reference-to-Video (7 ref images) + Grok Video Extend nodes |
+| v0.18.1 | March 23, 2026 | FP16 Canny fix, WAN VAE light/color issue fixed |
+| v0.18.0 | March 21, 2026 | `--fp16-intermediates` flag, VRAM reduction for LTX+WAN VAE, Topaz API nodes, Manager v4.1b2 |
+| v0.16.4 | March 7, 2026 | Math Expression node, Gemini 3.1 Flash-Lite in LLM node, FP16 audio encoder fix |
+
+### New Models Added to Ecosystem
+
+| Model | Category | Status | Notes |
+|-------|----------|--------|-------|
+| Reve Image 1.0 | Image Gen | Live — Partner Nodes | 4K, 5s gen, 3 nodes (Create/Edit/Remix) |
+| Seedream 5.0 Lite | Image Gen | Live — Partner Nodes | Web-connected retrieval, Feb 2026 |
+| Seedance 2.0 | Video Gen | Live — Partner Nodes | 2K, native audio, 8-lang lip-sync, Feb 2026 |
+| Grok R2V + Video Extend | Video Gen | Live — Partner Nodes | xAI, v0.18.2, Day-0 |
+| Wan 2.7 | Video Gen | Coming soon | Planned March 2026; first/last frame ctrl, instruction editing |
+| Higgs Audio 2 | TTS | Live — TTS Audio Suite | Boson AI, 3B params, 10M hrs, 4-speaker |
+| Chatterbox Multilingual | TTS | Live | 23 languages, new tier |
+| F5-TTS v1.1.18 | TTS | Live — PyPI | March 24, 2026 fresh release |
+| FLUX.2 Klein NVFP4 | Image Gen | Live | NVFP4 now available; LTX-2.3 NVFP4 coming soon |
+| Wan 2.2 5B Fun Inpaint/Control | Video Gen | Live | First-last frame interp, 10GB VRAM min |
+
+### Critical Compatibility Issues Found
+
+- **ComfyUI-Impact-Pack V4.85** requires **ComfyUI-IPAdapter-plus March 24, 2026+** — update immediately if using both
+- **WAN VAE color/light bug** fixed in v0.18.1 — update ComfyUI to resolve
+
+### Kijai WanVideoWrapper New Model Support
+
+FantasyTalking, FantasyPortrait, MultiTalk, EchoShot, HuMo, WanAnimate, ReCamMaster, Uni3C, MAGREF, ATI, Phantom, TimeToMove, SteadyDancer, SCAIL
+
+**LoRA buffer change**: LoRAs now loaded as module buffers for async offloading — may require adjusting block swap params in existing workflows.
+
+### YouTube Channel Activity
+
+- **Pixaroma**: EP08 (Mar 11), EP09 (Mar 17), EP10 (Mar 24) — active, workflow files on GitHub
+- **Sebastian Kamph**: Wan 2.6 R2V deep dive, Wan 2.2 5B I2V tutorial
+- **Kijai**: Primarily GitHub releases; WanVideoWrapper major additions
+- Transcripts not accessible via direct URL; marked for manual review
+
+### Additional Findings (concurrent sweep)
+
+| Model / Item | Category | Notes |
+|--------------|----------|-------|
+| Wan 2.2 S2V (Sound-to-Video) | Video | Native audio-driven video generation; S2V node in ComfyUI core |
+| LTX-2.3 GGUF variants | Video | unsloth + Kijai GGUF variants — consumer GPU access for LTX-2.3 |
+| Wan 2.2 Q4_K GGUF (14B) | Video | 8-10GB VRAM for flagship 14B model via quantization |
+| ComfyUI-Manager native (Mar 28) | Infrastructure | Manager bundled into ComfyUI core — no longer a separate install |
+
+### NVIDIA GDC 2026 Highlights (in ComfyUI context)
+
+- RTX Video Super Resolution node available in ComfyUI (real-time 4K upscaler)
+- NVFP4 for FLUX.2 Klein available now; NVFP4 for LTX-2.3 coming soon (up to 2.5x perf, 60% less VRAM)
+
+---
+
 # ComfyUI Character Generation: 2024-2025 Comprehensive Techniques Guide
 
 The ComfyUI ecosystem has undergone a dramatic transformation since 2024, with **InfiniteYou**, **FLUX Kontext**, and **PuLID Flux II** emerging as the new gold standards for character consistency—while many foundational repositories from cubiq (InstantID, PuLID, IP-Adapter) entered maintenance mode in April 2025. Video generation has been revolutionized by **Wan 2.2's MoE architecture** and **FramePack's 6GB VRAM breakthrough** for 60-second videos. Voice cloning integration reached maturity with unified platforms like TTS Audio Suite supporting 23+ languages and emotion control. This report synthesizes the latest techniques, workflows, and community discoveries to update character generation capabilities.

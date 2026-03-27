@@ -2,7 +2,43 @@
 
 Common ComfyUI errors, their causes, and solutions.
 
-<!-- Updated: 2026-02-06 | Source: Community knowledge + comfyui-character-gen -->
+<!-- Updated: 2026-03-27 | Source: Community knowledge, ComfyUI changelog v0.18.x, GitHub releases -->
+
+---
+
+## Compatibility Warnings
+
+### ComfyUI-Impact-Pack V4.85+ requires updated IPAdapter-plus (BREAKING — March 2026)
+
+**Symptom**: Errors when using Impact Pack detailer nodes after updating Impact Pack.
+
+**Cause**: Impact Pack V4.85 introduced changes incompatible with IPAdapter-plus versions before March 24, 2026.
+
+**Fix**: Update ComfyUI-IPAdapter-plus to the version dated **March 24, 2026 or later**:
+```
+ComfyUI Manager → Custom Nodes → ComfyUI_IPAdapter_plus → Update
+```
+Or manually: `cd custom_nodes/ComfyUI_IPAdapter_plus && git pull`
+
+---
+
+### WAN VAE: Light and Color Issues in v0.18.0 and below
+
+**Symptom**: Generated videos using WAN models have incorrect brightness or color casts.
+
+**Fix**: Update to ComfyUI v0.18.1+. The fix for WAN VAE light/color processing was included in v0.18.1 (March 23, 2026).
+
+---
+
+### LTX / WAN VAE: High VRAM usage during encode/decode
+
+**Symptom**: OOM errors specifically during VAE encode or decode steps with LTX or Wan models.
+
+**Fix**: Update to ComfyUI v0.18.0+. Includes:
+- Inplace output processing for LTX and WAN VAE
+- Chunked encoder implementation
+- Improved tiled decode peak memory management
+- `--fp16-intermediates` launch flag (reduces VRAM for intermediates between operations)
 
 ---
 

@@ -24,7 +24,23 @@ ComfyUI/
 
 ---
 
+<!-- Updated: 2026-03-27 | Source: ComfyUI Blog, GitHub releases, HuggingFace, WebSearch -->
+
 ## Checkpoint Models
+
+### Reve Image 1.0 "Halfmoon" (Partner Nodes — Cloud)
+- **Access**: ComfyUI Partner Nodes (Node Library or Templates → "Reve")
+- **Nodes**: `Reve Image Create`, `Reve Image Edit`, `Reve Image Remix`
+- **Max Resolution**: 4K
+- **Speed**: ~5 seconds per generation
+- **Best for**: Fashion editorial, cinematic aesthetics, strong prompt adherence, image editing + remixing
+- **Notes**: Does NOT run locally — API-based Partner Node. May open-source in future (devs forked ComfyUI repo).
+
+### Seedream 5.0 Lite (Partner Nodes — Cloud)
+- **Access**: ComfyUI Partner Nodes via BytePlus
+- **New in 5.0**: Web-connected retrieval (live world knowledge), improved instruction following
+- **Best for**: Current events imagery, reference-consistent generation, dense text rendering
+- **Notes**: Released Feb 2026. Prior versions (4.0, 4.5) also available.
 
 ### FLUX.1-dev (Recommended for Photorealism)
 - **Download**: https://huggingface.co/black-forest-labs/FLUX.1-dev
@@ -175,6 +191,20 @@ ComfyUI/
 
 ## Video Models
 
+### Grok Reference-to-Video + Video Extend (Partner Nodes — xAI)
+- **Access**: ComfyUI v0.18.2+ Partner Nodes (search "Grok" on canvas)
+- **Reference-to-Video**: Up to 7 reference images → consistent character/scene video; ~100s for 10s@720p
+- **Video Extend**: Seamlessly extend any existing video; ~60s for 10s extension
+- **Max length**: 15 seconds
+- **Notes**: Added in ComfyUI v0.18.2 (March 25, 2026). Excels at photorealistic output and precise text rendering.
+
+### Seedance 2.0 (Partner Nodes — ByteDance)
+- **Access**: ComfyUI Partner Nodes; also community nodes via muapi.ai
+- **Resolution**: 2K (2048px)
+- **Features**: Native audio-video sync, multi-modal input (up to 12 assets), first+last frame control, multi-shot storytelling
+- **Lip-sync**: Phoneme-level across 8 languages (EN, ZH, JA, KO, ES, FR, DE, PT)
+- **Notes**: Released Feb 2026. Requires Seedance API access (Pro/Enterprise).
+
 ### Wan 2.1 (Recommended)
 - **14B T2V**: `wan2.1_t2v_14b_bf16.safetensors`
 - **14B I2V**: `wan2.1_i2v_720p_14b_bf16.safetensors`
@@ -184,6 +214,18 @@ ComfyUI/
 - **Text Encoder**: `umt5_xxl_fp8_e4m3fn_scaled.safetensors` → `models/clip/`
 - **CLIP**: `open_clip_vit_h_14.safetensors` → `models/clip_vision/`
 - **VAE**: `wan_2.1_vae.safetensors` → `models/vae/`
+
+### Wan 2.2 5B Fun Inpaint / Fun Control
+- **Fun Inpaint model**: `wan2.2_fun_inpaint_high_noise_14B_fp8_scaled.safetensors` + low_noise variant
+  - Download: https://huggingface.co/Wan-Video/Wan2.2
+  - Path: `models/diffusion_models/`
+- **LightX2V LoRA** (4-step fast): `wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors` → `models/loras/`
+- **VAE**: `wan_2.1_vae.safetensors` (same as Wan 2.1)
+- **VRAM**: 10GB minimum (5B); 12GB for 720p @ 5-8s
+- **Key node**: `WanFunInpaintToVideo` — takes start + end frame → interpolated video
+- **Use case**: First-to-last frame interpolation, inpainting, seamless image morphing
+- **License**: Apache 2.0 (commercial use OK)
+- **Template**: ComfyUI Dashboard → Workflow → Browse Template → Video → "Wan2.2 Fun Inpaint"
 
 ### AnimateDiff
 - **Motion Module V3**: `v3_sd15_mm.ckpt`

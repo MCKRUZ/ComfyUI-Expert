@@ -2,9 +2,9 @@
 
 Quick reference for model selection. Full specs in `references/models.md`.
 
-<!-- Updated: 2026-03-27 | Source: GitHub Releases, ComfyUI Changelog, HuggingFace, ComfyUI Blog -->
+<!-- Updated: 2026-03-27 | Source: GitHub Releases, ComfyUI Changelog, HuggingFace, ComfyUI Blog, WebSearch (dual sweep) -->
 
-> **ComfyUI Version**: v0.18.2 (March 25, 2026). v0.18.0 adds **mxfp8 support**, `--fp16-intermediates` flag (meaningful VRAM reduction for LTX + Wan VAE workflows), and VAE optimizations. v0.18.1 fixes fp16 canny/sampling bugs. **ComfyUI-Manager goes native March 28** — bundled into core, no longer a separate install.
+> **ComfyUI Version**: v0.18.2 (March 25, 2026). Grok Reference-to-Video (7 ref images) + Grok Video Extend nodes (xAI). v0.18.0 adds **mxfp8 support**, `--fp16-intermediates` flag (VRAM reduction for LTX + Wan VAE), and VAE optimizations. v0.18.1 fixes FP16 Canny/sampling bugs and WAN VAE color issues. v0.16.4 added Math Expression node and Gemini 3.1 Flash-Lite in LLM node. **ComfyUI-Manager goes native March 28** — bundled into core.
 
 > **NVFP4 Critical Note**: NVFP4 acceleration on RTX 50 Series **requires PyTorch built with CUDA 13.0 (cu130)**. Without it, NVFP4 models run up to **2x slower** than FP8. Verify with `torch.version.cuda` before using NVFP4 checkpoints.
 
@@ -15,12 +15,14 @@ Quick reference for model selection. Full specs in `references/models.md`.
 | Rank | Model | Best For | VRAM | Notes |
 |------|-------|----------|------|-------|
 | 1 | **FLUX.2 [dev]** | Photorealism, 4MP, multi-reference | 24GB+ | 32B params, NVFP4/NVFP8; up to 10 ref images |
-| 2 | FLUX.2 [klein] | Fast generation, low VRAM | 12GB+ (4B) / 20GB+ (9B) | Sub-second on enterprise; distilled = 4 steps |
+| 2 | FLUX.2 [klein] | Fast generation, low VRAM | 12GB+ (4B) / 20GB+ (9B) | Sub-second on enterprise; NVFP4 now available |
 | 3 | FLUX Kontext | Iterative character editing | 12-32GB | NVFP4 available |
-| 4 | **Qwen-Image 2.0** | Typography, 2K, layered editing | 24GB+ (bf16/fp8) | 20B MMDiT, Apache 2.0, ControlNet support |
-| 5 | Z-Image (Base + Turbo) | Non-distilled quality / fast | 12-16GB+ | Turbo = 8 steps; Base = 30-50 steps, richer detail |
-| 6 | FLUX.1-dev | Proven photorealism | 16GB+ | NVFP4/NVFP8 available |
-| 7 | RealVisXL V5.0 | Fast SDXL photorealism | 8GB+ | |
+| 4 | **Reve Image 1.0** | Fast 4K, editorial/cinematic, editing | Cloud/Partner | **NEW Mar 2026**, 5s generation, strong prompt adherence; Create/Edit/Remix nodes |
+| 5 | **Qwen-Image 2.0** | Typography, 2K, layered editing | 24GB+ (bf16/fp8) | 20B MMDiT, Apache 2.0, ControlNet support |
+| 6 | **Seedream 5.0 Lite** | Web-aware image gen, instruction following | Cloud/Partner | **NEW Feb 2026**, web-connected retrieval, Partner Nodes |
+| 7 | Z-Image (Base + Turbo) | Non-distilled quality / fast | 12-16GB+ | Turbo = 8 steps; Base = 30-50 steps, richer detail |
+| 8 | FLUX.1-dev | Proven photorealism | 16GB+ | NVFP4/NVFP8 available |
+| 9 | RealVisXL V5.0 | Fast SDXL photorealism | 8GB+ | |
 
 ## Identity Preservation
 
@@ -36,15 +38,18 @@ Quick reference for model selection. Full specs in `references/models.md`.
 
 | Rank | Model | Best For | VRAM | Notes |
 |------|-------|----------|------|-------|
-| 1 | **LTX-2.3** | 4K audio+video, portrait, production | 24GB+ | **NEW Mar 2026**, Day-0 support, GGUF available |
+| 1 | **LTX-2.3** | 4K audio+video, portrait, production | 24GB+ | **NEW Mar 2026**, Day-0 support, GGUF available; NVFP4 support coming soon |
 | 2 | **Wan 2.6** | Reference-to-video, lip-sync, audio | 24GB+ | **NEW Jan 2026**, 1080p, native audio gen |
-| 3 | Wan 2.2 MoE | Film-level quality, first+last frame, S2V | 24GB+ | A14B model; native Sound-to-Video (S2V) node in ComfyUI |
+| 2b | **Wan 2.7** | Visual quality, audio, motion dynamics | 24GB+ | **COMING Mar 2026** — first/last frame ctrl, instruction editing, character+voice reference; not fully released yet |
+| 3 | Wan 2.2 MoE | Film-level quality, first+last frame, S2V | 24GB+ | A14B model; native Sound-to-Video (S2V) node; Fun Inpaint 5B variant needs only 10GB |
 | 3b | Stable Video Infinity 2.0 Pro | Infinite-length video (Wan 2.2) | 24GB+ | Pairs with Wan 2.2 I2V A14B |
-| 4 | **HunyuanVideo 1.5** | Lightweight flagship quality | 24GB | 8.3B params (down from 13B) |
-| 5 | FramePack | Long videos (60s+), low VRAM | 6GB+ | SageAttn = 30% faster; VRAM-invariant to length |
-| 6 | **SkyReels V1** | Human-centric, cinematic, facial | 24GB+ | **NEW Jan 2026**, 33 expressions, HunyuanVideo-based |
-| 7 | AnimateDiff V3 | Fast iteration, motion LoRAs | 8GB+ | |
-| 8 | Kling 3.0 | Commercial-quality video | Cloud/Partner | Via ComfyUI Partner Nodes |
+| 4 | **Seedance 2.0** | 2K video, native audio, 8-lang lip-sync | Cloud/Partner | **NEW Feb 2026**, multi-modal input, Partner Nodes |
+| 5 | **Grok Reference-to-Video** | Character-consistent video, up to 7 refs | Cloud/Partner | **NEW Mar 2026** (v0.18.2), ~100s/10s@720p; xAI |
+| 6 | **HunyuanVideo 1.5** | Lightweight flagship quality | 24GB | 8.3B params (down from 13B) |
+| 7 | FramePack | Long videos (60s+), low VRAM | 6GB+ | SageAttn = 30% faster; VRAM-invariant to length |
+| 8 | **SkyReels V1** | Human-centric, cinematic, facial | 24GB+ | **NEW Jan 2026**, 33 expressions, HunyuanVideo-based |
+| 9 | AnimateDiff V3 | Fast iteration, motion LoRAs | 8GB+ | |
+| 10 | Kling 3.0 | Commercial-quality video | Cloud/Partner | Via ComfyUI Partner Nodes |
 
 ## 3D Generation
 
@@ -58,12 +63,13 @@ Quick reference for model selection. Full specs in `references/models.md`.
 
 | Rank | Tool | Best For | License | Notes |
 |------|------|----------|---------|-------|
-| 1 | TTS Audio Suite | Unified 11-engine platform | Multi | ChatterBox, F5, Qwen3, IndexTTS-2, VibeVoice, RVC + more |
+| 1 | TTS Audio Suite | Unified 11-engine platform | Multi | ChatterBox, F5, Qwen3, IndexTTS-2, VibeVoice, Higgs Audio 2, RVC + more |
 | 2 | **Qwen3-TTS** | 10 languages, voice design | Open | **NEW Jan 2026**, zero-shot clone, text-based voice design |
-| 3 | Chatterbox Turbo | Fast emotion, MIT, production | MIT | 350M params, sub-200ms latency |
-| 4 | IndexTTS-2 | 8-emotion vector control | Open | Emotion sliders + audio reference |
-| 5 | F5-TTS | Zero-shot cloning, low VRAM | MIT | Works on 6GB VRAM |
-| 6 | VibeVoice | Long-form (90min), multi-speaker | Microsoft | Frontier conversational model |
+| 3 | **Higgs Audio 2** | Multi-speaker, 24kHz, 4-speaker native | Open | Boson AI, 3B params, 10M hrs training, multi-speaker dialog |
+| 4 | Chatterbox Turbo | Fast emotion, MIT, production | MIT | 350M params, sub-200ms latency; Multilingual (23 langs) tier also available |
+| 5 | IndexTTS-2 | 8-emotion vector control | Open | Emotion sliders + audio reference |
+| 6 | F5-TTS | Zero-shot cloning, low VRAM | MIT | v1.1.18 (Mar 24, 2026); works on 6GB VRAM |
+| 7 | VibeVoice | Long-form (90min), multi-speaker | Microsoft | Frontier conversational model |
 
 ## Lip-Sync
 

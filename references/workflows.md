@@ -1,5 +1,7 @@
 # ComfyUI Workflow Templates
 
+<!-- Updated: 2026-03-27 | Source: ComfyUI changelog, GitHub, YouTube research -->
+
 Detailed node configurations for each workflow pattern. Copy and adapt these templates.
 
 ---
@@ -410,6 +412,94 @@ Edit existing character images without retraining.
 edit_strength: 0.7-0.9  # Higher = more change
 preserve_identity: true
 steps: 25-30
+```
+
+---
+
+## Workflow 8: Wan 2.2 5B Fun Inpaint (First-to-Last Frame)
+
+Generate smooth video transitions between two still images. Low VRAM (10GB minimum).
+
+### Node Graph
+
+```
+[Load Image: Start Frame]  [Load Image: End Frame]
+              ↓                        ↓
+        [WanFunInpaintToVideo] ←── [Load Diffusion Model: wan2.2_fun_inpaint_high_noise_5B]
+                    ↓
+         [Load LoRA: lightx2v_4steps_high_noise]
+                    ↓
+         [KSampler (4 steps)]
+                    ↓
+         [VAE Decode] → [Video Combine]
+```
+
+### Model Files Required
+
+```
+diffusion_models/wan2.2_fun_inpaint_high_noise_5B.safetensors
+diffusion_models/wan2.2_fun_inpaint_low_noise_5B.safetensors
+loras/wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors
+loras/wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors
+text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors
+vae/wan_2.1_vae.safetensors
+```
+
+### Key Settings
+
+**Noise selection:**
+```
+High noise: bolder motion, more transformative interpolation
+Low noise: preserves start/end frame identity and texture
+```
+
+**KSampler (with LightX2V LoRA)**
+```
+steps: 4
+sampler: euler
+```
+
+**Hardware:**
+```
+Minimum: 10GB VRAM → 512x512, 3-4s clips
+Practical: 12GB → 720p, 5-8s clips
+```
+
+### Template
+
+ComfyUI Dashboard → Workflow → Browse Template → Video → **Wan2.2 Fun Inpaint**
+
+---
+
+## Workflow 9: Grok Reference-to-Video (xAI Partner Nodes)
+
+Generate character-consistent video from multiple reference images.
+
+### Requirements
+
+- ComfyUI v0.18.2+
+- xAI API key (via Partner Nodes)
+
+### Setup
+
+Double-click canvas → search **"Grok"** → add **Grok Reference to Video** node.
+
+### Key Parameters
+
+```
+reference_images: 1-7 images (character, scene elements)
+prompt: describe the video content
+duration: up to 15 seconds
+output: 720p, ~100s generation time per 10s clip
+```
+
+### Video Extend
+
+Use **Grok Video Extend** node to seamlessly continue any video:
+```
+input_video: existing clip
+duration: extension length
+~60s generation per 10s extension
 ```
 
 ---
