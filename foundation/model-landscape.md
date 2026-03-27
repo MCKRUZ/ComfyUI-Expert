@@ -2,9 +2,9 @@
 
 Quick reference for model selection. Full specs in `references/models.md`.
 
-<!-- Updated: 2026-03-18 | Source: NVIDIA Blog, ComfyUI Changelog, HuggingFace, ComfyUI Blog -->
+<!-- Updated: 2026-03-27 | Source: GitHub Releases, ComfyUI Changelog, HuggingFace, ComfyUI Blog -->
 
-> **ComfyUI Version**: v0.17.2 (March 15, 2026). Includes App Mode, Nodes 2.0 Vue, FluxKVCache node.
+> **ComfyUI Version**: v0.18.2 (March 25, 2026). v0.18.0 adds **mxfp8 support**, `--fp16-intermediates` flag (meaningful VRAM reduction for LTX + Wan VAE workflows), and VAE optimizations. v0.18.1 fixes fp16 canny/sampling bugs. **ComfyUI-Manager goes native March 28** — bundled into core, no longer a separate install.
 
 > **NVFP4 Critical Note**: NVFP4 acceleration on RTX 50 Series **requires PyTorch built with CUDA 13.0 (cu130)**. Without it, NVFP4 models run up to **2x slower** than FP8. Verify with `torch.version.cuda` before using NVFP4 checkpoints.
 
@@ -38,7 +38,7 @@ Quick reference for model selection. Full specs in `references/models.md`.
 |------|-------|----------|------|-------|
 | 1 | **LTX-2.3** | 4K audio+video, portrait, production | 24GB+ | **NEW Mar 2026**, Day-0 support, GGUF available |
 | 2 | **Wan 2.6** | Reference-to-video, lip-sync, audio | 24GB+ | **NEW Jan 2026**, 1080p, native audio gen |
-| 3 | Wan 2.2 MoE | Film-level quality, first+last frame | 24GB+ | A14B model |
+| 3 | Wan 2.2 MoE | Film-level quality, first+last frame, S2V | 24GB+ | A14B model; native Sound-to-Video (S2V) node in ComfyUI |
 | 3b | Stable Video Infinity 2.0 Pro | Infinite-length video (Wan 2.2) | 24GB+ | Pairs with Wan 2.2 I2V A14B |
 | 4 | **HunyuanVideo 1.5** | Lightweight flagship quality | 24GB | 8.3B params (down from 13B) |
 | 5 | FramePack | Long videos (60s+), low VRAM | 6GB+ | SageAttn = 30% faster; VRAM-invariant to length |
@@ -78,6 +78,7 @@ Quick reference for model selection. Full specs in `references/models.md`.
 
 | Tool | Speedup | VRAM Savings | Notes |
 |------|---------|-------------|-------|
+| `--fp16-intermediates` (v0.18.0) | Moderate | Meaningful reduction | Flag for LTX + Wan VAE workflows; built into ComfyUI |
 | Nunchaku v1.2.0 (SVDQuant) | 2-3x | 3.5x reduction | INT4 on RTX 20+ series; min 4GB for FLUX |
 | WaveSpeed (FBCache) | Up to 2x | Minimal | First block cache; works with LoRA |
 | TeaCache | ~30% | Minimal | No-training; best for video gen |

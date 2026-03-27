@@ -488,3 +488,61 @@ ComfyUI now has **native AMD ROCm integration** with reported 5.4x faster image 
 - [Pixaroma GitHub](https://github.com/pixaroma/pixaroma-workflows) — YouTube episode workflow backups
 - [awesome-comfyui](https://github.com/ComfyUI-Workflow/awesome-comfyui) — daily-updated node collection
 - [NVIDIA RTX AI Blog](https://blogs.nvidia.com/blog/rtx-ai-garage-flux-2-comfyui/) — FLUX.2 optimizations
+
+---
+
+## Weekly Sweep — March 27, 2026
+
+<!-- Updated: 2026-03-27 | Source: GitHub Releases, HuggingFace, ComfyUI Changelog, ComfyUI Blog -->
+
+**Scope**: March 20–27, 2026. Three ComfyUI releases, new S2V capability in Wan 2.2, F5-TTS minor release, ComfyUI-Manager going native.
+
+### ComfyUI Core — Three Releases This Week
+
+| Version | Date | Key Changes |
+|---------|------|-------------|
+| **v0.18.2** | Mar 25 | Stability/immutable release |
+| **v0.18.1** | Mar 23 | Fix: canny node broken with fp16; fp16 intermediate sampling bugs fixed |
+| **v0.18.0** | Mar 21 | **Major**: mxfp8 support, `--fp16-intermediates` flag (VRAM reduction for LTX + Wan), VAE optimizations |
+
+The `--fp16-intermediates` flag in v0.18.0 is the most impactful practical change — meaningful VRAM reduction specifically for LTX and WAN VAE-heavy workflows without a quality penalty.
+
+### ComfyUI-Manager Going Native (March 28)
+
+ComfyUI-Manager is migrating to `Comfy-Org/ComfyUI-Manager` and will be **bundled natively with ComfyUI** from March 28 onward. Custom node management no longer requires a separate install. Existing installations should update their manager source.
+
+### Wan 2.2 Sound-to-Video (S2V)
+
+Native **Sound-to-Video** support landed in ComfyUI core via the new `WanSoundImageToVideoExtend` node. Audio-driven video generation using Wan 2.2 is now a first-class workflow — no wrapper required. Also added: Wav2vec2 Audio Encoder node (audio-to-embedding for multimodal workflows) and native Audio Recording node.
+
+### F5-TTS v1.1.18 (March 24)
+
+Minor release. Changes: Arabic model documentation, F5TTS v1 Small training config (LibriTTS), streaming vs. non-streaming function split in `utils_infer.py`, parallelism improvements for batch processing. Not a model quality change — no model-landscape update needed.
+
+### HuggingFace Trending — Notable Models
+
+- **Lightricks/LTX-2.3** + GGUF variants — still heavily trending; Day-0 ComfyUI support confirmed (already in model-landscape)
+- **unsloth/LTX-2.3-GGUF** — consumer GPU access (Q4/Q8); Kijai safetensor extracts available
+- **Wan-Video/Wan2.2** + Q4_K GGUF — enables 8–10GB VRAM usage for the 14B model
+- **VibeVoice** — long-form multi-speaker via next-token diffusion (already in model-landscape)
+- **Indic Parler-TTS** — 21-language multilingual TTS, 69 voices; niche but notable for non-English workflows
+- **OuteTTS-0.2-500M** — Qwen-2.5-0.5B base, multilingual (Chinese, Japanese, Korean) voice cloning
+
+### YouTube — Confirmed New Content
+
+- **Sebastian Kamph**: "Video2Video Restyling with Wan VACE in ComfyUI" — Wan 2.2 VACE reference-image restyling workflow, downloadable. (Other channels: no specific post-Mar-20 videos confirmed via search indexing)
+
+### Other Platform Changes
+
+- **Reve Image API nodes** added March 21 — new image API option in ComfyUI
+- **GPT-5 / Gemini 3.1 Flash-Lite** LLM nodes added to core
+- **Kling V2-1-Master** + Motion Control with Element Binding (facial consistency) — updated Partner Node
+- **RTX Video Super Resolution** (4K upscale) — now a native ComfyUI node
+
+### Custom Nodes — Status Updates
+
+| Node | Status |
+|------|--------|
+| ComfyUI-Manager | Moving to Comfy-Org, going native Mar 28 |
+| ComfyUI-WanVideoWrapper (kijai) | Active; LTX-2.3 + Wan S2V tracking |
+| F5-TTS ComfyUI node | v1.1.18 — streaming split, Arabic support |
