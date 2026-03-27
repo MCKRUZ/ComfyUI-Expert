@@ -1,2 +1,5 @@
 - [User Profile](user_profile.md) — Jan Hill, Bavaria Entertainment, video production lead
 - [Project: Tobis Tour](project_tobis_tour.md) — Opening Film for Checker Tobi live show, in production
+- [Project: Tobis Tour Video Status](project_tobis_tour_video_status.md) — 13+5 Shots generiert, Review + POV-Fixes morgen
+- [Feedback: Veo Reference = Startframe](feedback_veo_reference.md) — Referenzbild immer passend zum Shot waehlen
+- [Feedback: Google Model IDs](feedback_model_ids_aktuell.md) — Nano Banana Pro = gemini-3-pro-image-preview, Veo = veo-3.1-generate-001

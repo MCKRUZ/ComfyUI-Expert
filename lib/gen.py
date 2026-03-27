@@ -20,7 +20,7 @@ def image_gemini(prompt: str, output: str | Path) -> Path:
     """Generiert ein Bild via Gemini (Nano Banana Pro)."""
     client = genai.Client(api_key=GOOGLE_API_KEY)
     response = client.models.generate_content(
-        model="gemini-2.0-flash-exp",
+        model="gemini-3-pro-image-preview",
         contents=str(prompt),
         config=types.GenerateContentConfig(
             response_modalities=["IMAGE", "TEXT"],
@@ -82,7 +82,7 @@ def video_veo(prompt: str, output: str | Path, reference_image: str | Path = "")
             image = types.Image(image_bytes=ref.read_bytes(), mime_type=mime)
 
     kwargs = {
-        "model": "veo-3.1-generate-preview",
+        "model": "veo-3.1-generate-001",
         "prompt": prompt,
         "config": types.GenerateVideosConfig(
             duration_seconds=8,
