@@ -1,39 +1,25 @@
 # Hardware Profile
 
-## GPU
-- **Model**: NVIDIA RTX 5090
-- **VRAM**: 32GB GDDR7
-- **Architecture**: Blackwell
-- **Compute**: FP16, BF16, FP8 (native)
+## Current Setup
+- **Machine**: MacBook (Apple Silicon)
+- **GPU**: Keine dedizierte NVIDIA GPU (wird beschafft)
+- **Modus**: API-basiert — alle Bildgenerierung läuft über externe APIs
 
-## Capabilities at 32GB VRAM
+## API-Dienste (verfügbar)
 
-| Workload | Status | Notes |
-|----------|--------|-------|
-| FLUX.1-dev FP16 | Native | No quantization needed |
-| FLUX.1-dev FP8 | Native | ~16GB, leaves room for other models |
-| Wan 2.2 14B | Native | Full quality, no compromises |
-| Wan 2.2 14B I2V | Native | 720p at 81 frames |
-| FramePack | Overkill | Designed for 6GB, runs effortlessly |
-| PuLID Flux II | Native | Dual-character generation works |
-| InfiniteYou | Native | Both SIM and AES variants |
-| AnimateDiff + LoRA | Native | Batch 4x possible |
-| SDXL + ControlNet stack | Native | Multiple ControlNets simultaneously |
-| LoRA Training (FLUX) | Native | Standard training, no quantization needed |
-| LoRA Training (SDXL) | Native | Batch size 2-4 |
+| Dienst | API Key | Zweck |
+|--------|---------|-------|
+| Google Gemini / Veo | GOOGLE_API_KEY | Bildgenerierung (Nano Banana Pro), Videogenerierung (Veo 3.1), Bildanalyse (Flash) |
+| fal.ai | FAL_KEY | Flux LoRA, Flux Pro Kontext, LoRA Training |
+| meinGPT | MEINGPT_API_KEY | Text-Workflows (Skript-Analyse, Prompt-Generierung) |
 
-## Recommended Launch Flags
+## ComfyUI Desktop
+- Installiert unter /Applications/ComfyUI.app
+- Custom Nodes: Gemini Direct, fal-API, fal-API-Flux, RequestNodes, KJNodes, GeminiWeb
+- Kein lokales Rendering — alle Nodes nutzen externe APIs
 
-```
---highvram --fp8_e4m3fn-unet
-```
+## Empfohlene Launch Flags
+Keine — API-basiert, kein VRAM-Management nötig.
 
-- `--highvram`: Keep models in VRAM (no offloading needed)
-- `--fp8_e4m3fn-unet`: Optional FP8 for FLUX when running parallel models
-
-## Performance Tips
-
-- Enable tiled VAE only for 8K+ upscaling
-- Batch 4x 1024x1024 generations in parallel
-- Use FP8 quantization for FLUX only when running concurrent workloads
-- cuDNN 8800+ recommended for maximum throughput
+## Geplant
+GPU-Rechner wird beschafft (RTX 4090 oder 5090). Dann Umstellung auf lokale Generierung möglich.

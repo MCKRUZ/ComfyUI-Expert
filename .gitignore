@@ -1,3 +1,6 @@
+# Secrets
+.env
+
 # Runtime state (machine-specific)
 state/session.json
 state/inventory.json
@@ -8,6 +11,10 @@ projects/*/assets/
 
 # Claude Code internals
 .claude/settings.local.json
+
+# Python
+__pycache__/
+*.pyc
 
 # OS
 Thumbs.db

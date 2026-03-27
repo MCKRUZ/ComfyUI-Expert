@@ -47,16 +47,17 @@ When the user makes a request, route to the right skill file:
 
 Before generating ANY workflow:
 1. Read `state/inventory.json` (if it exists)
-2. If it doesn't exist or is stale, tell the user to run: `pwsh -File scripts/scan-inventory.ps1 -ComfyUIPath "C:\ComfyUI"` (or query the API via `skills/comfyui-api/SKILL.md`)
+2. If it doesn't exist or is stale, tell the user to run: `bash scripts/scan-inventory.sh /path/to/ComfyUI` (macOS/Linux) or `pwsh -File scripts/scan-inventory.ps1 -ComfyUIPath "C:\ComfyUI"` (Windows) — or query the API via `skills/comfyui-api/SKILL.md`
 3. Validate every model and node in your workflow exists in inventory
 4. If something is missing, say what to download and where to put it
 
 ## Hardware Context
 
-- **GPU**: RTX 5090 (32GB VRAM)
-- **Launch flags**: `--highvram --fp8_e4m3fn-unet`
-- Can run ALL models natively (Wan 14B, FLUX FP16, PuLID Flux II)
-- Full details: `foundation/hardware-profile.md`
+Read `foundation/hardware-profile.md` for current setup. Key info:
+- Check if running on Apple Silicon (MPS) or NVIDIA GPU
+- If API-only mode: use Gemini Direct, fal.ai nodes (no local model loading needed)
+- If local GPU available: can load checkpoints, LoRAs, run inference locally
+- ComfyUI Desktop default port: **8000** (not 8188)
 
 ## Authority Matrix
 
