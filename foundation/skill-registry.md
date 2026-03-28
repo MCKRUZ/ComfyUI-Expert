@@ -38,6 +38,12 @@
 | `video-assembly` | `skills/video-assembly/` | video-pipeline, voice-pipeline |
 | `video-publisher` | `skills/video-publisher/` | video-assembly |
 
+## Compliance (cross-cutting, depends on inventory + research)
+
+| Skill | Path | Depends On |
+|-------|------|------------|
+| `licensing-compliance` | `skills/licensing-compliance/` | inventory, research |
+
 ## Support
 
 | Skill | Path | Purpose |
@@ -47,6 +53,7 @@
 ## Invocation Patterns
 
 **Before any generation skill**: Always check `comfyui-inventory` first
+**Before commercial production**: Run `licensing-compliance` check on all pipeline models
 **After any failure**: Route to `comfyui-troubleshooter`
 **Before any workflow**: Validate against inventory (missing nodes/models)
 **At session start**: Quick staleness check via `comfyui-research`

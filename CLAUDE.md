@@ -39,6 +39,7 @@ When the user makes a request, route to the right skill file:
 | Something broke / error | `skills/comfyui-troubleshooter/SKILL.md` | Inventory + error message |
 | Assemble final video | `skills/video-assembly/SKILL.md` | |
 | Upload / publish | `skills/video-publisher/SKILL.md` | Existing youtube-* skills |
+| Licensing check / commercial rights / ToS | `skills/licensing-compliance/SKILL.md` | Inventory + research for latest terms |
 | Manage project / characters | `skills/project-manager/SKILL.md` | |
 | Connect to ComfyUI / check status | `skills/comfyui-api/SKILL.md` | |
 | Check what's installed | `skills/comfyui-inventory/SKILL.md` | |
